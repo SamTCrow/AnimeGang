@@ -10,13 +10,22 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "@iconify-json/radix-icons": "^1.2.1",
+    "@iconify-json/rivet-icons": "^1.2.1",
+    "@iconify-json/tabler": "^1.2.6",
     "@nuxt/devtools": "latest",
     "@nuxt/eslint": "^0.6.0",
     "@nuxt/fonts": "^0.10.2",
+    "@nuxt/image": "^1.8.1",
     "@nuxt/ui": "^2.18.7",
+    "eslint": "^9.13.0",
+    "eslint-plugin-vue": "^9.29.1",
+    "globals": "^15.11.0",
     "nuxt": "^3.13.2",
     "prettier": "^3.3.3",
-    "prettier-plugin-tailwindcss": "^0.6.8"
+    "prettier-plugin-tailwindcss": "^0.6.8",
+    "typescript-eslint": "^8.11.0"
   },
   "dependencies": {
     "@vueuse/core": "^11.1.0",
