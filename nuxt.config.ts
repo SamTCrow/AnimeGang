@@ -4,28 +4,35 @@ export default defineNuxtConfig({
     head: {
       title: "AnimeGang",
       htmlAttrs: {
-        lang: "en",
-      },
-    },
+        lang: "en"
+      }
+    }
   },
+
   devtools: { enabled: true },
   modules: [
     "@nuxt/ui",
     "@nuxt/eslint",
     "@vueuse/nuxt",
     "@nuxt/fonts",
-    "@nuxt/image",
+    "@nuxt/image"
   ],
+  runtimeConfig: {
+    public: {
+      NUXT_ANILIST_API: ""
+    }
+  },
+
   compatibilityDate: "2024-10-22",
   colorMode: {
-    preference: "system",
+    preference: "system"
   },
   fonts: {
     families: [
       {
         name: "Poppins",
-        provider: "google",
-      },
-    ],
-  },
+        provider: "google"
+      }
+    ]
+  }
 });

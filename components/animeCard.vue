@@ -13,15 +13,17 @@ const { card } = defineProps<props>();
     <template #header>
       <p>{{ card.title }}</p>
     </template>
-    <div class="grid grid-cols-2 gap-4">
-      <img :src="card.cover" />
+    <div class="flex flex-1 flex-col gap-4">
+      <UContainer><NuxtImg :src="card.cover" class="h-64 w-full" /></UContainer>
       <div class="flex flex-col justify-between">
-        <p>{{ card.synopsis }}</p>
-        <div class="flex justify-between">
-          <span>{{ card.studio }}</span>
-          <span class="text-right">{{ card.status }}</span>
-        </div>
+        <p class="line-clamp-6 text-sm">{{ card.synopsis }}</p>
       </div>
     </div>
+    <template #footer>
+      <div class="flex justify-between">
+        <span>{{ card.studio }}</span>
+        <span class="text-right">{{ card.status }}</span>
+      </div>
+    </template>
   </UCard>
 </template>
