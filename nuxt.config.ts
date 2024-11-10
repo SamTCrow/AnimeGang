@@ -15,11 +15,18 @@ export default defineNuxtConfig({
     "@nuxt/eslint",
     "@vueuse/nuxt",
     "@nuxt/fonts",
-    "@nuxt/image"
+    // "nuxt-graphql-client"
+    "@nuxt/image",
+    "@nuxthub/core"
   ],
+  hub: {
+    cache: true,
+    database: true,
+    kv: true
+  },
   runtimeConfig: {
     public: {
-      NUXT_ANILIST_API: ""
+      // GQL_HOST: "https://graphql.anilist.co"
     }
   },
 
