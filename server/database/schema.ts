@@ -4,17 +4,65 @@ import {
   integer,
   primaryKey
 } from "drizzle-orm/sqlite-core";
-import { relations } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 
 //Da finire tabella utenti
 export const user = sqliteTable("user", {
   id: integer("id").primaryKey(),
-  nickname: text("nickname").notNull()
+  name: text("name").notNull(),
+  username: text("nickname").notNull().unique(),
+  password: text("password").notNull(),
+  email: text("email").unique().notNull(),
+  profileImage: text("avatar"),
+  listId: integer("listId"),
+  createdAt: text("createdAt").default(sql`(CURRENT_TIMESTAMP)`),
+  updatedAt: text("updatedAt"),
+  verified: integer("verified", {
+    mode: "boolean"
+  }).default(false)
 });
 
-export const userRelations = relations(user, ({ many }) => ({
+export const userRelations = relations(user, ({ many, one }) => ({
   scores: many(score),
-  watchedAnime: many(watchedAnime)
+  watchedAnime: many(watchedAnime),
+  animeList: one(list),
+  characterLike: many(characterLike)
+}));
+
+export const list = sqliteTable("list", {
+  id: integer("id").primaryKey().notNull(),
+  userId: integer("id").references(() => user.id)
+});
+
+export const listRelations = relations(list, ({ one, many }) => ({
+  user: one(user, { fields: [list.userId], references: [user.id] }),
+  listToAnime: many(listToAnime)
+}));
+
+export const listToAnime = sqliteTable(
+  "listToAnime",
+  {
+    listId: integer("listId")
+      .notNull()
+      .references(() => list.id),
+    animeId: integer("animeId")
+      .notNull()
+      .references(() => anime.id)
+  },
+  (t) => ({
+    pk: primaryKey({ columns: [t.animeId, t.listId] })
+  })
+);
+
+export const listToAnimeRelations = relations(listToAnime, ({ one }) => ({
+  anime: one(anime, {
+    fields: [listToAnime.animeId],
+    references: [anime.id]
+  }),
+  list: one(list, {
+    fields: [listToAnime.listId],
+    references: [list.id]
+  })
 }));
 
 export const score = sqliteTable(
@@ -70,7 +118,11 @@ export const animeRelations = relations(anime, ({ one, many }) => ({
   }),
   animeToGenres: many(animeToGenres),
   watchedAnime: many(watchedAnime),
-  scores: many(score)
+  scores: many(score),
+  listToAnime: many(listToAnime),
+  streamingLinks: many(streamingLinks),
+  characterToAnime: many(characterToAnime),
+  relatedAnime: many(relatedAnime)
 }));
 
 export const animeToGenres = sqliteTable(
@@ -140,6 +192,112 @@ export const watchedAnimeRelations = relations(watchedAnime, ({ one }) => ({
   }),
   user: one(user, {
     fields: [watchedAnime.userId],
+    references: [user.id]
+  })
+}));
+
+export const relatedAnime = sqliteTable(
+  "relatedAnime",
+  {
+    animeId: integer("animeId")
+      .notNull()
+      .references(() => anime.id),
+    relatedAnimeId: integer("relatedAnimeId")
+      .notNull()
+      .references(() => anime.id),
+    relationType: text("relationType").notNull()
+  },
+  (t) => ({
+    pk: primaryKey({ columns: [t.animeId, t.relatedAnimeId] })
+  })
+);
+
+export const relatedAnimeRelations = relations(relatedAnime, ({ one }) => ({
+  anime: one(anime, {
+    fields: [relatedAnime.animeId],
+    references: [anime.id]
+  }),
+  relatedAnime: one(anime, {
+    fields: [relatedAnime.relatedAnimeId],
+    references: [anime.id]
+  })
+}));
+
+export const streamingLinks = sqliteTable("streamingLinks", {
+  id: integer("id").primaryKey().notNull(),
+  animeId: integer("animeId").notNull(),
+  name: text("name").notNull(),
+  url: text("url").notNull()
+});
+
+export const streamingLinksRelations = relations(streamingLinks, ({ one }) => ({
+  anime: one(anime, {
+    fields: [streamingLinks.animeId],
+    references: [anime.id]
+  })
+}));
+
+export const characters = sqliteTable("characters", {
+  id: integer("id").primaryKey().notNull(),
+  image: text("image"),
+  name: text("name").notNull(),
+  about: text("about")
+});
+
+export const characterRelations = relations(characters, ({ many }) => ({
+  characterToAnime: many(characterToAnime),
+  characterLike: many(characterLike)
+}));
+
+export const characterToAnime = sqliteTable(
+  "charactersToAnime",
+  {
+    characterId: integer("characterId")
+      .notNull()
+      .references(() => characters.id),
+    animeId: integer("animeId")
+      .notNull()
+      .references(() => anime.id)
+  },
+  (t) => ({
+    pk: primaryKey({ columns: [t.animeId, t.characterId] })
+  })
+);
+
+export const charactersToAnimeRelations = relations(
+  characterToAnime,
+  ({ one }) => ({
+    anime: one(anime, {
+      fields: [characterToAnime.animeId],
+      references: [anime.id]
+    }),
+    characters: one(characters, {
+      fields: [characterToAnime.characterId],
+      references: [characters.id]
+    })
+  })
+);
+
+export const characterLike = sqliteTable(
+  "characterLike",
+  {
+    characterId: integer("characterId")
+      .notNull()
+      .references(() => characters.id),
+    userId: integer("userId")
+      .notNull()
+      .references(() => user.id)
+  },
+  (t) => ({ pk: primaryKey({ columns: [t.characterId, t.userId] }) })
+);
+
+export const characterLikeRelation = relations(characterLike, ({ one }) => ({
+  characters: one(characters, {
+    fields: [characterLike.characterId],
+    references: [characters.id]
+  }),
+  user: one(user, {
+    fields: [characterLike.userId],
     references: [user.id]
   })
 }));

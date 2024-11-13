@@ -15,9 +15,9 @@ export default defineNuxtConfig({
     "@nuxt/eslint",
     "@vueuse/nuxt",
     "@nuxt/fonts",
-    // "nuxt-graphql-client"
     "@nuxt/image",
-    "@nuxthub/core"
+    "@nuxthub/core",
+    "nuxt-auth-utils"
   ],
   hub: {
     cache: true,
@@ -25,11 +25,11 @@ export default defineNuxtConfig({
     kv: true
   },
   runtimeConfig: {
-    public: {
-      // GQL_HOST: "https://graphql.anilist.co"
+    session: {
+      maxAge: 60 * 60 * 24 * 7 // 1 week
     }
   },
-
+ 
   compatibilityDate: "2024-10-22",
   colorMode: {
     preference: "system"
