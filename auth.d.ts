@@ -31,6 +31,7 @@ declare module "#auth-utils" {
     authentik?: string;
     userName?: string;
     userId?: number;
+    name?: string | null;
   }
 
   interface UserSession {

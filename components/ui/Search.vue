@@ -1,17 +1,27 @@
 <script lang="ts" setup>
-const q = ref("");
-const handleSearch = () => console.log(q.value);
+import { z } from "zod";
+
+const schema = z.object({
+  q: z.string()
+});
+const q = reactive({
+  q: ""
+});
+const handleSearch = async () => {
+  await navigateTo(`/search/${q.q}`);
+};
 </script>
 
 <template>
-  <form @submit.prevent="handleSearch">
+  <UForm :schema="schema" :state="q" @submit.prevent="handleSearch">
     <UInput
-      v-model="q"
+      v-model="q.q"
       name="q"
       placeholder="Search..."
       icon="i-heroicons-magnifying-glass-20-solid"
       autocomplete="on"
+      variant="outline"
       :ui="{ icon: { trailing: { pointer: '' } } }"
     />
-  </form>
+  </UForm>
 </template>

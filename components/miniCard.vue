@@ -10,11 +10,21 @@ const { card } = defineProps<props>();
 </script>
 
 <template>
-  <UPopover mode="hover" :popper="{ placement: 'right' }">
-    <div class="flex flex-col gap-2">
-      <NuxtImg :src="card.cover" class="mx-auto h-64 rounded-sm" />
-      <span>{{ card.title }}</span>
-    </div>
+  <UPopover
+    mode="hover"
+    :popper="{ placement: 'right', adaptive: true }"
+    class="m-2 flex"
+  >
+    <ULink :to="`/anime/${card.id}`" class="flex flex-grow flex-col">
+      <div class="flex-grow">
+        <NuxtImg :src="card.cover" class="mx-auto w-full rounded-sm" />
+      </div>
+
+      <div class="mt-2 line-clamp-2 h-[50px] overflow-hidden text-center">
+        <UDivider class="mb-2" />
+        <span class="text-sm">{{ card.title }}</span>
+      </div>
+    </ULink>
     <template #panel>
       <BigCard :card="card" />
     </template>

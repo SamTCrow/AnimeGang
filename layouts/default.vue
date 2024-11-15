@@ -9,9 +9,16 @@ import Account from "~/components/account/account.vue";
     >
       <Menu class="basis-1/3" />
       <div class="flex basis-1/3 justify-center"><UiSearch /></div>
-      <div class="flex basis-1/3 justify-end"><Account /></div>
+      <div class="flex basis-1/3 justify-end">
+        <Account />
+        <UiDarkMode />
+      </div>
     </div>
-    <slot />
+    <UContainer
+      class="flex w-full max-w-[1400px] flex-1 flex-col gap-4 bg-gray-100 py-4 dark:bg-gray-900"
+    >
+      <slot />
+    </UContainer>
     <div class="h-32 w-full bg-gray-200 dark:bg-gray-800">footer</div>
   </div>
 </template>

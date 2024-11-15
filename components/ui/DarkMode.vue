@@ -6,7 +6,7 @@ const isDark = computed({
   },
   set() {
     colorMode.preference = colorMode.value === "dark" ? "light" : "dark";
-  },
+  }
 });
 </script>
 
@@ -17,6 +17,7 @@ const isDark = computed({
       color="primary"
       variant="ghost"
       aria-label="Theme"
+      class="hidden md:block"
       @click="isDark = !isDark"
     />
     <template #fallback>

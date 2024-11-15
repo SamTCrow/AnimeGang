@@ -22,6 +22,27 @@
       "when": 1731450779051,
       "tag": "0002_tough_storm",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1731524994419,
+      "tag": "0003_pink_absorbing_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1731525124110,
+      "tag": "0004_skinny_cobalt_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1731623303327,
+      "tag": "0005_natural_hulk",
+      "breakpoints": true
     }
   ]
 }

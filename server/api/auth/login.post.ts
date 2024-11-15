@@ -18,16 +18,6 @@ export default defineEventHandler(async (event) => {
     );
   }
 
-  if (!user.verified) {
-    return sendError(
-      event,
-      createError({
-        statusCode: 400,
-        statusMessage: "User not verified"
-      })
-    );
-  }
-
   const passwordCheck = await verifyPassword(user.password, password);
 
   if (!passwordCheck) {
@@ -37,16 +27,26 @@ export default defineEventHandler(async (event) => {
     );
   }
 
+  if (!user.verified) {
+    return sendError(
+      event,
+      createError({
+        statusCode: 400,
+        statusMessage: "User not verified"
+      })
+    );
+  }
   await setUserSession(event, {
-    user: { userName: user.username, userId: user.id, email: user.email },
+    user: {
+      userName: user.username,
+      userId: user.id,
+      email: user.email,
+      name: user.name
+    },
     loggedInAt: Date.now()
   });
 
-  const session = await getUserSession(event);
-
-  
   return {
-    message: "Logged in Successfully!",
-    session: session
+    message: "LogIn successful"
   };
 });

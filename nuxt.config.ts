@@ -27,9 +27,16 @@ export default defineNuxtConfig({
   runtimeConfig: {
     session: {
       maxAge: 60 * 60 * 24 * 7 // 1 week
+    },
+    oauth: {
+      google: {
+        clientId:
+          "272972600238-thoehn9uuipm8tpkvoc6hkc8ch36do1j.apps.googleusercontent.com",
+        clientSecret: "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",
+        redirectURL: "http://localhost:3000/api/auth/google"
+      }
     }
   },
- 
   compatibilityDate: "2024-10-22",
   colorMode: {
     preference: "system"

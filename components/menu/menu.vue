@@ -63,7 +63,7 @@ const menu = [
 
 <template>
   <div>
-    <ul class="hidden gap-4 text-lg font-bold lg:flex">
+    <ul class="hidden gap-4 text-lg font-medium lg:flex">
       <li v-for="item in menu" :key="item.label">
         <UDropdown
           mode="hover"

@@ -1,9 +1,10 @@
 <script lang="ts" setup>
-const { data: topAnime } = await useFetch("/api/top/anime");
-const { data: topManga } = await useFetch("/api/top/manga");
-const { data: topCharacters } = await useFetch("/api/top/characters");
-const { data: seasonNow } = await useFetch("/api/season/now");
-
+const { data: topAnime } = await useFetch("/api/top/anime", { lazy: true });
+const { data: topManga } = await useFetch("/api/top/manga", { lazy: true });
+const { data: topCharacters } = await useFetch("/api/top/characters", {
+  lazy: true
+});
+const { data: seasonNow } = await useFetch("/api/season/now", { lazy: true });
 </script>
 
 <template>

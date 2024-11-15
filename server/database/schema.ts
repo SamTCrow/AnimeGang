@@ -9,12 +9,11 @@ import { relations, sql } from "drizzle-orm";
 //Da finire tabella utenti
 export const user = sqliteTable("user", {
   id: integer("id").primaryKey(),
-  name: text("name").notNull(),
-  username: text("nickname").notNull().unique(),
+  name: text("name"),
+  username: text("username").notNull().unique(),
   password: text("password").notNull(),
   email: text("email").unique().notNull(),
   profileImage: text("avatar"),
-  listId: integer("listId"),
   createdAt: text("createdAt").default(sql`(CURRENT_TIMESTAMP)`),
   updatedAt: text("updatedAt"),
   verified: integer("verified", {
@@ -102,6 +101,7 @@ export const anime = sqliteTable("anime", {
   episodes: integer("episodes").notNull(),
   status: text("status").notNull(),
   airing: integer("airing", { mode: "boolean" }),
+  start: text('start'),
   duration: text("duration"),
   rating: text("rating"),
   score: integer("score"),

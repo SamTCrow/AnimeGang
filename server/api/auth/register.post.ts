@@ -65,7 +65,12 @@ export default defineEventHandler(async (event) => {
   // add email verification
 
   await setUserSession(event, {
-    user: { userName: user.username, userId: user.id, email: user.email },
+    user: {
+      userName: user.username,
+      userId: user.id,
+      email: user.email,
+      name: user.name
+    },
     loggedInAt: Date.now()
   });
 
