@@ -8,13 +8,13 @@ type props = {
 
 const { card } = defineProps<props>();
 </script>
-
+	
 <template>
   <UPopover
     mode="hover"
     :popper="{ placement: 'right', adaptive: true }"
     class="m-2 flex"
-  >
+  >		
     <ULink :to="`/anime/${card.id}`" class="flex flex-grow flex-col">
       <div class="flex-grow">
         <NuxtImg :src="card.cover" class="mx-auto w-full rounded-sm" />

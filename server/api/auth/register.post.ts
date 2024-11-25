@@ -39,10 +39,7 @@ export default defineEventHandler(async (event) => {
     );
   }
 
-  const userData: Omit<
-    User,
-    "profileImage" | "id" | "createdAt" | "updatedAt" | "listId" | "verified"
-  > = {
+  const userData: User = {
     username,
     email,
     name,

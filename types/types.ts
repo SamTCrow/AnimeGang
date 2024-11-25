@@ -19,6 +19,10 @@ export interface JikanAnimeResponse {
   data: AnimeDatum[];
 }
 
+export interface JikanFullAnimeResponse {
+  data: AnimeDatum;
+}
+
 export interface AnimeDatum {
   mal_id: number;
   url: string;
@@ -32,7 +36,7 @@ export interface AnimeDatum {
   title_synonyms: string[];
   type: string;
   source: string;
-  episodes: string;
+  episodes: number;
   status: string;
   airing: boolean;
   aired: Aired;
@@ -59,7 +63,7 @@ export interface AnimeDatum {
 }
 
 export interface Aired {
-  from: Date;
+  from: string;
   to: Date | null;
   prop: Prop;
   string: string;
@@ -274,4 +278,30 @@ export interface Items {
   count: number;
   total: number;
   per_page: number;
+}
+
+export interface AnimeCharactersResponse {
+  data: character[];
+}
+
+export interface character {
+  character: { mal_id: number; images: Images; name: string };
+  role: string;
+  favorites: number;
+}
+
+export interface AnimeRelationsResponse {
+  data: Relations[];
+}
+
+export interface Relations {
+  relation: string;
+  entry: RelationsEntry[];
+}
+
+export interface RelationsEntry {
+  mal_id: number;
+  type: string;
+  name: string;
+  url: string;
 }

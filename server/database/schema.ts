@@ -21,16 +21,17 @@ export const user = sqliteTable("user", {
   }).default(false)
 });
 
-export const userRelations = relations(user, ({ many, one }) => ({
+export const userRelations = relations(user, ({ many }) => ({
   scores: many(score),
   watchedAnime: many(watchedAnime),
-  animeList: one(list),
+  animeList: many(list),
   characterLike: many(characterLike)
 }));
 
 export const list = sqliteTable("list", {
   id: integer("id").primaryKey().notNull(),
-  userId: integer("id").references(() => user.id)
+  userId: integer("id").references(() => user.id),
+  name: text("name").notNull()
 });
 
 export const listRelations = relations(list, ({ one, many }) => ({
@@ -92,23 +93,23 @@ export const scoreRelations = relations(score, ({ one }) => ({
 }));
 
 export const anime = sqliteTable("anime", {
-  id: integer("id").primaryKey({}),
+  id: integer("id").primaryKey({}).notNull(),
   cover: text("cover").notNull(),
   trailer: text("trailer"),
   title: text("title").notNull(),
   type: text("type").notNull(),
   source: text("source"),
-  episodes: integer("episodes").notNull(),
+  episodes: integer("episodes"),
   status: text("status").notNull(),
-  airing: integer("airing", { mode: "boolean" }),
-  start: text('start'),
+  airing: integer("airing", { mode: "boolean" }).notNull(),
+  start: text("start"),
   duration: text("duration"),
-  rating: text("rating"),
+  rank: integer("rating"),
   score: integer("score"),
   synopsis: text("synopsis"),
   season: text("season"),
   year: integer("year"),
-  studioID: integer("studioID")
+  studioID: text("studioID")
 });
 
 export const animeRelations = relations(anime, ({ one, many }) => ({
@@ -257,7 +258,8 @@ export const characterToAnime = sqliteTable(
       .references(() => characters.id),
     animeId: integer("animeId")
       .notNull()
-      .references(() => anime.id)
+      .references(() => anime.id),
+    role: text("role")
   },
   (t) => ({
     pk: primaryKey({ columns: [t.animeId, t.characterId] })

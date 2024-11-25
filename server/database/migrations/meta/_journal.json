@@ -43,6 +43,27 @@
       "when": 1731623303327,
       "tag": "0005_natural_hulk",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1731925508432,
+      "tag": "0006_same_shen",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "6",
+      "when": 1732199583961,
+      "tag": "0007_loose_the_enforcers",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1732264399267,
+      "tag": "0008_odd_fabian_cortez",
+      "breakpoints": true
     }
   ]
 }

@@ -7,7 +7,7 @@ export default defineEventHandler(async () => {
     return {
       title: element.title,
       rank: element.rank,
-      cover: element.images.webp.image_url,
+      cover: element.images.jpg.image_url,
       season: element.season || undefined,
       year: element.year || undefined,
       studio: element.studios[0].name,

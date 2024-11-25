@@ -2,10 +2,7 @@ export default defineOAuthGoogleEventHandler({
   async onSuccess(event, { user }) {
     const isRegistered = await getUserByUsername(user.sub);
     if (!isRegistered) {
-      const userData: Omit<
-        User,
-        "profileImage" | "id" | "createdAt" | "updatedAt" | "listId"
-      > = {
+      const userData: User = {
         username: user.sub,
         email: user.email,
         name: user.name,
