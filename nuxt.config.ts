@@ -17,7 +17,7 @@ export default defineNuxtConfig({
     "@nuxt/fonts",
     "@nuxt/image",
     "@nuxthub/core",
-    "nuxt-auth-utils"
+    "nuxt-auth-utils",
   ],
   hub: {
     cache: true,

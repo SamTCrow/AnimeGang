@@ -5,64 +5,8 @@
     {
       "idx": 0,
       "version": "6",
-      "when": 1731348248437,
-      "tag": "0000_curved_alice",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1731350698119,
-      "tag": "0001_high_fantastic_four",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "6",
-      "when": 1731450779051,
-      "tag": "0002_tough_storm",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "6",
-      "when": 1731524994419,
-      "tag": "0003_pink_absorbing_man",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "6",
-      "when": 1731525124110,
-      "tag": "0004_skinny_cobalt_man",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "6",
-      "when": 1731623303327,
-      "tag": "0005_natural_hulk",
-      "breakpoints": true
-    },
-    {
-      "idx": 6,
-      "version": "6",
-      "when": 1731925508432,
-      "tag": "0006_same_shen",
-      "breakpoints": true
-    },
-    {
-      "idx": 7,
-      "version": "6",
-      "when": 1732199583961,
-      "tag": "0007_loose_the_enforcers",
-      "breakpoints": true
-    },
-    {
-      "idx": 8,
-      "version": "6",
-      "when": 1732264399267,
-      "tag": "0008_odd_fabian_cortez",
+      "when": 1732874609708,
+      "tag": "0000_sloppy_franklin_storm",
       "breakpoints": true
     }
   ]

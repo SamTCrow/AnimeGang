@@ -51,6 +51,7 @@ export default defineEventHandler(async (event) => {
     .values({
       ...userData
     })
+    .onConflictDoNothing()
     .returning({
       id: tables.user.id,
       username: tables.user.username,
@@ -58,6 +59,35 @@ export default defineEventHandler(async (event) => {
       name: tables.user.name
     })
     .get();
+
+  if (!user) {
+    return sendError(
+      event,
+      createError({
+        statusCode: 400,
+        message: "User already exist"
+      })
+    );
+  }
+
+  const wantToWatch = await useDrizzle()
+    .insert(tables.list)
+    .values({
+      userId: user.id,
+      name: "Want to watch"
+    })
+    .returning()
+    .get();
+
+  if (!wantToWatch) {
+    return sendError(
+      event,
+      createError({
+        statusCode: 400,
+        message: "List Error"
+      })
+    );
+  }
 
   // add email verification
 

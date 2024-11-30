@@ -1,1 +1,0 @@
-ALTER TABLE `anime` ADD `start` text;
