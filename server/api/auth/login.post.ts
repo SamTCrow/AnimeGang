@@ -1,5 +1,13 @@
+import { z } from "zod";
+
 export default defineEventHandler(async (event) => {
-  const body = await readBody(event);
+  const body = await readValidatedBody(
+    event,
+    z.object({
+      username: z.string(),
+      password: z.string()
+    }).parse
+  );
   const { username, password } = body;
 
   if (!username || !password) {

@@ -12,7 +12,7 @@ const { data: season } = await useFetch("/api/season/now", { lazy: true });
     class="flex w-full max-w-[1400px] flex-1 flex-col gap-4 bg-gray-100 py-4 dark:bg-gray-900"
   >
     <section v-if="season">
-      <h1>{{ season?.season }}</h1>
+      <h1>{{ season?.season.toUpperCase() }}</h1>
       <Highlights :highlights="season.response" />
     </section>
     <section class="">

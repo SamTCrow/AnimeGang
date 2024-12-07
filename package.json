@@ -40,6 +40,7 @@
     "wrangler": "^3.86.0"
   },
   "dependencies": {
+    "@pinia/nuxt": "^0.9.0",
     "@tanstack/vue-query": "^5.61.5",
     "@vueuse/core": "^11.1.0",
     "@vueuse/nuxt": "^11.1.0",
@@ -48,6 +49,7 @@
     "drizzle-orm": "^0.36.1",
     "jsonwebtoken": "^9.0.2",
     "next-auth": "^4.21.1",
+    "pinia": "^2.3.0",
     "zod": "^3.23.8"
   }
 }

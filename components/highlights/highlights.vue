@@ -10,10 +10,23 @@ const { highlights } = defineProps<props>();
 
 <template>
   <div>
-    <div
-      class="grid grid-cols-2 justify-items-center gap-4 p-4 md:grid-cols-3 lg:grid-cols-6"
+    <UCarousel
+      v-slot="{ item }"
+      :items="highlights"
+      :ui="{ item: 'basis-1/2 sm:basis-1/3 lg:basis-1/6 m-4' }"
+      :prev-button="{
+        color: 'gray',
+        icon: 'i-heroicons-arrow-left-20-solid',
+        class: '-start-12 hidden sm:flex'
+      }"
+      :next-button="{
+        color: 'gray',
+        icon: 'i-heroicons-arrow-right-20-solid',
+        class: '-end-12 hidden sm:flex'
+      }"
+      arrows
     >
-      <MiniCard v-for="card in highlights" :key="card.id" :card="card" />
-    </div>
+      <MiniCard :card="item" />
+    </UCarousel>
   </div>
 </template>

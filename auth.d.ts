@@ -30,7 +30,7 @@ declare module "#auth-utils" {
     zitadel?: string;
     authentik?: string;
     userName?: string;
-    userId?: number;
+    userId: number;
     name?: string | null;
   }
 

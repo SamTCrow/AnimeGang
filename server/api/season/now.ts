@@ -17,7 +17,7 @@ export default cachedEventHandler(
     );
 
     const season =
-      (data[0].season ?? "Current Season") + " " + new Date().getFullYear();
+      (data[0].season ?? "Current Season") + " -5 " + new Date().getFullYear();
 
     return { response, season };
   },

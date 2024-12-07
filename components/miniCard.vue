@@ -8,23 +8,21 @@ type props = {
 
 const { card } = defineProps<props>();
 </script>
-	
-<template>
-  <UPopover
-    mode="hover"
-    :popper="{ placement: 'right', adaptive: true }"
-    class="m-2 flex"
-  >		
-    <ULink :to="`/anime/${card.id}`" class="flex flex-grow flex-col">
-      <div class="flex-grow">
-        <NuxtImg :src="card.cover" class="mx-auto w-full rounded-sm" />
-      </div>
 
-      <div class="mt-2 line-clamp-2 h-[50px] overflow-hidden text-center">
-        <UDivider class="mb-2" />
-        <span class="text-sm">{{ card.title }}</span>
-      </div>
+<template>
+  <UPopover mode="hover" :popper="{ placement: 'right', adaptive: true }">
+    <ULink :to="`/anime/${card.id}`" class="flex flex-col">
+      <NuxtImg
+        :src="card.cover"
+        class="mx-auto aspect-[9/13] w-64 overflow-hidden rounded-lg object-contain"
+      />
+
+      <UDivider class="my-2" />
+      <span class="line-clamp-1 overflow-hidden text-center text-sm">{{
+        card.title
+      }}</span>
     </ULink>
+
     <template #panel>
       <BigCard :card="card" />
     </template>
