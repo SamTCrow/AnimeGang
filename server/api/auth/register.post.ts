@@ -1,6 +1,7 @@
 import { sendError } from "#imports";
 import type { User } from "~/server/utils/drizzle";
 import { z } from "zod";
+import { createWantToWatchList } from "~/server/utils/database";
 
 export default defineEventHandler(async (event) => {
   const { username, email, password, repeatPassword, name } =
@@ -70,24 +71,7 @@ export default defineEventHandler(async (event) => {
     );
   }
 
-  const wantToWatch = await useDrizzle()
-    .insert(tables.list)
-    .values({
-      userId: user.id,
-      name: "Want to watch"
-    })
-    .returning()
-    .get();
-
-  if (!wantToWatch) {
-    return sendError(
-      event,
-      createError({
-        statusCode: 400,
-        message: "List Error"
-      })
-    );
-  }
+  createWantToWatchList(user.id);
 
   // add email verification
 

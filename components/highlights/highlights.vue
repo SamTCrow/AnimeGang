@@ -9,11 +9,11 @@ const { highlights } = defineProps<props>();
 </script>
 
 <template>
-  <div>
+  <div class="">
     <UCarousel
       v-slot="{ item }"
       :items="highlights"
-      :ui="{ item: 'basis-1/2 sm:basis-1/3 lg:basis-1/6 m-4' }"
+      :ui="{ item: 'basis-1/2 sm:basis-1/3 lg:basis-1/6 p-2' }"
       :prev-button="{
         color: 'gray',
         icon: 'i-heroicons-arrow-left-20-solid',

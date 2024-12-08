@@ -12,12 +12,13 @@ export default cachedEventHandler(
           cover: element.images.webp.image_url,
           synopsis: element.synopsis,
           id: element.mal_id,
-          episodes: element.episodes
+          episodes: element.episodes,
+          genres: element.genres
         }) satisfies highlightCard
     );
 
     const season =
-      (data[0].season ?? "Current Season") + " -5 " + new Date().getFullYear();
+      (data[0].season ?? "Current Season") + " - " + new Date().getFullYear();
 
     return { response, season };
   },

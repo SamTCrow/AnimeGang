@@ -1,9 +1,4 @@
-import {
-  sqliteTable,
-  text,
-  integer,
-  primaryKey
-} from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
 import { relations, sql } from "drizzle-orm";
 
 //Da finire tabella utenti
@@ -30,7 +25,9 @@ export const userRelations = relations(user, ({ many }) => ({
 
 export const list = sqliteTable("list", {
   id: integer("id").primaryKey(),
-  userId: integer("id").references(() => user.id),
+  userId: integer("userId")
+    .references(() => user.id)
+    .notNull(),
   name: text("name").notNull()
 });
 
@@ -39,18 +36,13 @@ export const listRelations = relations(list, ({ one, many }) => ({
   listToAnime: many(listToAnime)
 }));
 
-export const listToAnime = sqliteTable(
-  "listToAnime",
-  {
-    listId: integer("listId")
-      .notNull()
-      .references(() => list.id),
-    animeId: integer("animeId").notNull()
-  },
-  (t) => ({
-    pk: primaryKey({ columns: [t.animeId, t.listId] })
-  })
-);
+export const listToAnime = sqliteTable("listToAnime", {
+  id: integer("id").primaryKey(),
+  listId: integer("listId")
+    .notNull()
+    .references(() => list.id),
+  animeId: integer("animeId").notNull()
+});
 
 export const listToAnimeRelations = relations(listToAnime, ({ one }) => ({
   list: one(list, {
@@ -59,19 +51,14 @@ export const listToAnimeRelations = relations(listToAnime, ({ one }) => ({
   })
 }));
 
-export const score = sqliteTable(
-  "scores",
-  {
-    userID: integer("userID")
-      .notNull()
-      .references(() => user.id),
-    animeID: integer("animeID").notNull(),
-    score: integer("score").notNull()
-  },
-  (t) => ({
-    pk: primaryKey({ columns: [t.animeID, t.userID] })
-  })
-);
+export const score = sqliteTable("scores", {
+  id: integer("id").primaryKey(),
+  userID: integer("userID")
+    .notNull()
+    .references(() => user.id),
+  animeID: integer("animeID").notNull(),
+  score: integer("score").notNull()
+});
 
 export const scoreRelations = relations(score, ({ one }) => ({
   user: one(user, {
@@ -80,18 +67,13 @@ export const scoreRelations = relations(score, ({ one }) => ({
   })
 }));
 
-export const watchedAnime = sqliteTable(
-  "watchedAnime",
-  {
-    userId: integer("userId")
-      .notNull()
-      .references(() => user.id),
-    animeId: integer("animeId").notNull()
-  },
-  (t) => ({
-    pk: primaryKey({ columns: [t.userId, t.animeId] })
-  })
-);
+export const watchedAnime = sqliteTable("watchedAnime", {
+  id: integer("id").primaryKey(),
+  userId: integer("userId")
+    .notNull()
+    .references(() => user.id),
+  animeId: integer("animeId").notNull()
+});
 
 export const watchedAnimeRelations = relations(watchedAnime, ({ one }) => ({
   user: one(user, {
@@ -100,17 +82,14 @@ export const watchedAnimeRelations = relations(watchedAnime, ({ one }) => ({
   })
 }));
 
-export const characterLike = sqliteTable(
-  "characterLike",
-  {
-    characterId: integer("characterId").notNull(),
-    userId: integer("userId")
-      .notNull()
-      .references(() => user.id),
-    likedHated: integer("likedHated", { mode: "boolean" })
-  },
-  (t) => ({ pk: primaryKey({ columns: [t.characterId, t.userId] }) })
-);
+export const characterLike = sqliteTable("characterLike", {
+  id: integer("id").primaryKey(),
+  characterId: integer("characterId").notNull(),
+  userId: integer("userId")
+    .notNull()
+    .references(() => user.id),
+  likedHated: integer("likedHated", { mode: "boolean" })
+});
 
 export const characterLikeRelation = relations(characterLike, ({ one }) => ({
   user: one(user, {

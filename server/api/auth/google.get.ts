@@ -1,3 +1,5 @@
+import { createWantToWatchList } from "~/server/utils/database";
+
 export default defineOAuthGoogleEventHandler({
   async onSuccess(event, { user }) {
     const isRegistered = await getUserByUsername(user.sub);
@@ -23,14 +25,25 @@ export default defineOAuthGoogleEventHandler({
         })
         .get();
 
+      createWantToWatchList(newUser.id);
+      await setUserSession(event, {
+        user: {
+          userName: newUser.username,
+          userId: newUser.id,
+          email: newUser.email,
+          name: newUser.name
+        },
+        loggedInAt: Date.now()
+      });
+      return sendRedirect(event, "/");
       console.log(newUser);
     }
     await setUserSession(event, {
       user: {
-        userName: isRegistered?.username,
-        userId: isRegistered?.id,
-        email: isRegistered?.email,
-        name: isRegistered?.name
+        userName: isRegistered.username,
+        userId: isRegistered.id,
+        email: isRegistered.email,
+        name: isRegistered.name
       },
       loggedInAt: Date.now()
     });

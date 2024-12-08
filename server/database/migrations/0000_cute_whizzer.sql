@@ -1,29 +1,30 @@
 CREATE TABLE `characterLike` (
+	`id` integer PRIMARY KEY NOT NULL,
 	`characterId` integer NOT NULL,
 	`userId` integer NOT NULL,
 	`likedHated` integer,
-	PRIMARY KEY(`characterId`, `userId`),
 	FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
 CREATE TABLE `list` (
-	`id` integer,
+	`id` integer PRIMARY KEY NOT NULL,
+	`userId` integer NOT NULL,
 	`name` text NOT NULL,
-	FOREIGN KEY (`id`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE no action
+	FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
 CREATE TABLE `listToAnime` (
+	`id` integer PRIMARY KEY NOT NULL,
 	`listId` integer NOT NULL,
 	`animeId` integer NOT NULL,
-	PRIMARY KEY(`animeId`, `listId`),
 	FOREIGN KEY (`listId`) REFERENCES `list`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
 CREATE TABLE `scores` (
+	`id` integer PRIMARY KEY NOT NULL,
 	`userID` integer NOT NULL,
 	`animeID` integer NOT NULL,
 	`score` integer NOT NULL,
-	PRIMARY KEY(`animeID`, `userID`),
 	FOREIGN KEY (`userID`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
@@ -42,8 +43,8 @@ CREATE TABLE `user` (
 CREATE UNIQUE INDEX `user_username_unique` ON `user` (`username`);--> statement-breakpoint
 CREATE UNIQUE INDEX `user_email_unique` ON `user` (`email`);--> statement-breakpoint
 CREATE TABLE `watchedAnime` (
+	`id` integer PRIMARY KEY NOT NULL,
 	`userId` integer NOT NULL,
 	`animeId` integer NOT NULL,
-	PRIMARY KEY(`userId`, `animeId`),
 	FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE no action
 );

@@ -145,3 +145,23 @@ export const insertRelatedAnime = async (
     };
   }
 };
+
+export const createWantToWatchList = async (userid: number) => {
+try {
+  const wantToWatch = await useDrizzle()
+    .insert(tables.list)
+    .values({
+      name: "Want to watch",
+      userId: userid
+    })
+    .returning()
+    .get();
+  return wantToWatch;
+} catch (error) {
+  console.log(error);
+  return {
+    errorCode: 400,
+    errorMessage: "DB Error"
+  };
+}
+};

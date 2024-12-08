@@ -1,12 +1,19 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "d053e7cc-0f2a-4ce2-96c3-7b57ff5cbdf2",
+  "id": "f0f22a0b-9c74-458d-9608-519e55c9fbd6",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "characterLike": {
       "name": "characterLike",
       "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
         "characterId": {
           "name": "characterId",
           "type": "integer",
@@ -45,15 +52,7 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {
-        "characterLike_characterId_userId_pk": {
-          "columns": [
-            "characterId",
-            "userId"
-          ],
-          "name": "characterLike_characterId_userId_pk"
-        }
-      },
+      "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
@@ -63,8 +62,15 @@
         "id": {
           "name": "id",
           "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "userId": {
+          "name": "userId",
+          "type": "integer",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
         "name": {
@@ -77,12 +83,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "list_id_user_id_fk": {
-          "name": "list_id_user_id_fk",
+        "list_userId_user_id_fk": {
+          "name": "list_userId_user_id_fk",
           "tableFrom": "list",
           "tableTo": "user",
           "columnsFrom": [
-            "id"
+            "userId"
           ],
           "columnsTo": [
             "id"
@@ -98,6 +104,13 @@
     "listToAnime": {
       "name": "listToAnime",
       "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
         "listId": {
           "name": "listId",
           "type": "integer",
@@ -129,21 +142,20 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {
-        "listToAnime_animeId_listId_pk": {
-          "columns": [
-            "animeId",
-            "listId"
-          ],
-          "name": "listToAnime_animeId_listId_pk"
-        }
-      },
+      "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
     "scores": {
       "name": "scores",
       "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
         "userID": {
           "name": "userID",
           "type": "integer",
@@ -182,15 +194,7 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {
-        "scores_animeID_userID_pk": {
-          "columns": [
-            "animeID",
-            "userID"
-          ],
-          "name": "scores_animeID_userID_pk"
-        }
-      },
+      "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
@@ -287,6 +291,13 @@
     "watchedAnime": {
       "name": "watchedAnime",
       "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
         "userId": {
           "name": "userId",
           "type": "integer",
@@ -318,15 +329,7 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {
-        "watchedAnime_userId_animeId_pk": {
-          "columns": [
-            "userId",
-            "animeId"
-          ],
-          "name": "watchedAnime_userId_animeId_pk"
-        }
-      },
+      "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "checkConstraints": {}
     }
