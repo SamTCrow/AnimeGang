@@ -18,7 +18,8 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "@nuxthub/core",
     "nuxt-auth-utils",
-    "@pinia/nuxt"
+    "@pinia/nuxt",
+    "@nuxt/scripts"
   ],
   hub: {
     cache: true,

@@ -8,6 +8,34 @@
       "when": 1733675918225,
       "tag": "0000_cute_whizzer",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1733762916028,
+      "tag": "0001_brown_squadron_supreme",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1733830219044,
+      "tag": "0002_kind_reaper",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1733850862340,
+      "tag": "0003_burly_hellion",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1734370475691,
+      "tag": "0004_cynical_lady_vermin",
+      "breakpoints": true
     }
   ]
 }

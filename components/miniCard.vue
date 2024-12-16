@@ -11,7 +11,7 @@ const { card } = defineProps<props>();
 
 <template>
   <div>
-    <span class="line-clamp-1 overflow-hidden text-center text-sm">{{
+    <span class="my-2 line-clamp-1 overflow-hidden text-center text-sm">{{
       card.title
     }}</span>
 
@@ -30,8 +30,12 @@ const { card } = defineProps<props>();
 
     <AuthState v-slot="{ loggedIn }">
       <div v-if="loggedIn" class="flex justify-between">
-        <UiWatchedButton :anime-id="card.id">Watched</UiWatchedButton>
-        <UiWatchedButton :anime-id="card.id">Add to list</UiWatchedButton>
+        <UiWatchedButton :anime-id="card.id" :anime-name="card.title"
+          >Watched</UiWatchedButton
+        >
+        <UiAddToListButton :anime-id="card.id" :anime-name="card.title"
+          >Add to list</UiAddToListButton
+        >
       </div>
     </AuthState>
   </div>

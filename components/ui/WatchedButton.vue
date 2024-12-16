@@ -1,14 +1,13 @@
 <script lang="ts" setup>
-const { animeId } = defineProps<{ animeId: number }>();
+const { animeId, animeName } = defineProps<{
+  animeId: number;
+  animeName: string;
+}>();
 const { user, loggedIn } = useUserSession();
 const { watchedAnimes, fetchWatchedAnimes } = useWatchedAnimes();
 const userId = user.value?.userId;
-const watched = ref(false);
-
-watch(watchedAnimes, async () => {
-  watched.value = watchedAnimes.value.some(
-    (anime) => anime.animeId === animeId
-  );
+const watched = computed(() => {
+  return watchedAnimes.value.some((anime) => anime.animeId === animeId);
 });
 
 const handleSubmit = async () => {
@@ -16,28 +15,27 @@ const handleSubmit = async () => {
     if (!watched.value) {
       try {
         await $fetch("/api/user/addWatchedAnime", {
-          
           method: "POST",
           body: {
             userId,
-            animeId
+            animeId,
+            animeName
           }
         });
-        fetchWatchedAnimes(userId);
+        await fetchWatchedAnimes(userId);
       } catch (err) {
         console.log(err);
       }
     } else {
       try {
         await $fetch("/api/user/deleteWatchedAnime", {
-          
           method: "POST",
           body: {
             userId,
             animeId
           }
         });
-        fetchWatchedAnimes(userId);
+        await fetchWatchedAnimes(userId);
       } catch (err) {
         console.log(err);
       }

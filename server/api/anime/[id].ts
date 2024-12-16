@@ -1,5 +1,4 @@
 import { z } from "zod";
-import type { AnimePost } from "~/server/utils/drizzle";
 import type {
   AnimeCharactersResponse,
   AnimeRelationsResponse,
@@ -7,7 +6,7 @@ import type {
 } from "~/types/types";
 
 const schema = z.object({
-  id: z.preprocess(Number, z.number())
+  id: z.string()
 });
 
 export default cachedEventHandler(
@@ -18,7 +17,7 @@ export default cachedEventHandler(
       `https://api.jikan.moe/v4/anime/${id}/full`
     );
 
-    const animeData: AnimePost = {
+    const animeData = {
       id: data.mal_id,
       title: data.title,
       type: data.type,
@@ -58,8 +57,8 @@ export default cachedEventHandler(
 
     return {
       animeData,
-      genres: [animeGenres],
-      characters: [animeCharacters],
+      genres: animeGenres,
+      characters: animeCharacters,
       animeRelations
     };
 

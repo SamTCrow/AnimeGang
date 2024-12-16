@@ -1,0 +1,1 @@
+ALTER TABLE `listToAnime` ADD `animeName` text NOT NULL;

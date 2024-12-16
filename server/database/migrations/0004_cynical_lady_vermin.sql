@@ -1,0 +1,1 @@
+ALTER TABLE `characterLike` ADD `characterName` text NOT NULL;

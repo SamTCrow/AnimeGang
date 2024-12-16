@@ -1,0 +1,1 @@
+ALTER TABLE `watchedAnime` ADD `animeName` text NOT NULL;

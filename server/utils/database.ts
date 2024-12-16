@@ -1,4 +1,4 @@
-import type { AnimePost, characterPost, GenrePost } from "./drizzle";
+import type { List, listToAnime } from "./drizzle";
 
 export const getUserByUsername = async (username: string) => {
   const user = await useDrizzle()
@@ -10,158 +10,122 @@ export const getUserByUsername = async (username: string) => {
   return user;
 };
 
-export const getAnimeById = async (id: number) => {
-  const anime = await useDrizzle()
-    .select()
-    .from(tables.anime)
-    .where(eq(tables.anime.id, id))
-    .get();
-
-  return anime;
-};
-
-export const insertAnime = async (animeInsert: AnimePost) => {
-  try {
-    const anime = await useDrizzle()
-      .insert(tables.anime)
-      .values(animeInsert)
-      .returning()
-      .get();
-
-    return anime;
-  } catch (err) {
-    console.log(err);
-    return {
-      errorCode: 400,
-      errorMessage: "DB Error"
-    };
-  }
-};
-
-export const insertGenre = async (genre: GenrePost) => {
-  try {
-    const newGenre = await useDrizzle()
-      .insert(tables.genres)
-      .values(genre)
-      .onConflictDoNothing()
-      .returning()
-      .get();
-    return newGenre;
-  } catch (error) {
-    console.log(error);
-    return {
-      error: {
-        errorCode: 400,
-        errorMessage: "DB Error"
-      }
-    };
-  }
-};
-
-export const insertAnimeToGenre = async (animeID: number, genreID: number) => {
-  try {
-    const animeToGenre = await useDrizzle()
-      .insert(tables.animeToGenres)
-      .values({
-        animeId: animeID,
-        genreId: genreID
-      })
-      .returning()
-      .get();
-    return animeToGenre;
-  } catch (error) {
-    console.log(error);
-    return {
-      errorCode: 400,
-      errorMessage: "DB Error"
-    };
-  }
-};
-
-export const insertCharacter = async (character: characterPost) => {
-  try {
-    const char = await useDrizzle()
-      .insert(tables.characters)
-      .values(character)
-      .onConflictDoNothing()
-      .returning()
-      .get();
-    return char;
-  } catch (error) {
-    console.log(error, character);
-    return {
-      errorCode: 400,
-      errorMessage: "DB Error"
-    };
-  }
-};
-
-export const insertCharacterToAnime = async (
-  animeID: number,
-  charID: number,
-  role: string = ""
-) => {
-  try {
-    const charToAnime = await useDrizzle()
-      .insert(tables.characterToAnime)
-      .values({
-        animeId: animeID,
-        characterId: charID,
-        role: role
-      })
-      .returning()
-      .get();
-    return charToAnime;
-  } catch (error) {
-    console.log(error, animeID, charID);
-    return {
-      errorCode: 400,
-      errorMessage: "DB Error"
-    };
-  }
-};
-
-export const insertRelatedAnime = async (
-  animeID: number,
-  relID: number,
-  relation: string
-) => {
-  try {
-    const animeRelations = await useDrizzle()
-      .insert(tables.relatedAnime)
-      .values({
-        animeId: animeID,
-        relatedAnimeId: relID,
-        relationType: relation
-      })
-      .returning()
-      .get();
-    return animeRelations;
-  } catch (error) {
-    console.log(error);
-    return {
-      errorCode: 400,
-      errorMessage: "DB Error"
-    };
-  }
-};
-
 export const createWantToWatchList = async (userid: number) => {
-try {
-  const wantToWatch = await useDrizzle()
-    .insert(tables.list)
-    .values({
-      name: "Want to watch",
-      userId: userid
-    })
-    .returning()
-    .get();
-  return wantToWatch;
-} catch (error) {
-  console.log(error);
-  return {
-    errorCode: 400,
-    errorMessage: "DB Error"
-  };
-}
+  try {
+    const wantToWatch = await useDrizzle()
+      .insert(tables.list)
+      .values({
+        name: "Want to watch",
+        userId: userid
+      })
+      .returning()
+      .get();
+    return wantToWatch;
+  } catch (error) {
+    console.log(error);
+    return {
+      errorCode: 400,
+      errorMessage: "DB Error"
+    };
+  }
+};
+
+export const getUserLists = async (userId: number) => {
+  try {
+    const lists = await useDrizzle()
+      .select()
+      .from(tables.list)
+      .leftJoin(
+        tables.listToAnime,
+        eq(tables.list.id, tables.listToAnime.listId)
+      )
+      .where(eq(tables.list.userId, userId))
+      .all();
+
+    const result = lists.reduce(
+      (acc: { list: List; anime: listToAnime[] }[], list) => {
+        const goodList = list.list;
+        const anime = list.listToAnime;
+        const existingList = acc.find((item) => item.list.id === goodList.id);
+
+        if (!existingList) {
+          acc.push({ list: goodList, anime: [] });
+        }
+
+        if(anime) {
+          const updatedList = acc.find((item) => item.list.id === goodList.id)
+          if(updatedList) {
+            updatedList.anime.push(anime)
+          }
+        }
+
+        return acc;
+      },
+      []
+    );
+
+    return result;
+  } catch (error) {
+    console.log(error);
+    throw createError({
+      statusCode: 400,
+      statusMessage: "DB Error" + error
+    });
+  }
+};
+
+export const getListById = async (listId: number) => {
+  try {
+    const list = await useDrizzle()
+      .select()
+      .from(tables.list)
+      .fullJoin(
+        tables.listToAnime,
+        eq(tables.list.id, tables.listToAnime.listId)
+      )
+      .where(eq(tables.list.id, listId))
+      .get();
+    return list;
+  } catch (error) {
+    throw createError({
+      status: 400,
+      statusMessage: "DB error" + error
+    });
+  }
+};
+
+export const addAnimeToList = async (
+  listId: number,
+  animeId: number,
+  animeName: string
+) => {
+  try {
+    const addAnime = await useDrizzle()
+      .insert(tables.listToAnime)
+      .values({ listId, animeId, animeName })
+      .returning()
+      .get();
+    return addAnime;
+  } catch (error) {
+    throw createError({
+      statusCode: 500,
+      statusMessage: `${error}`
+    });
+  }
+};
+
+export const addList = async (userId: number, name: string) => {
+  try {
+    const newList = await useDrizzle()
+      .insert(tables.list)
+      .values({ userId, name })
+      .returning()
+      .get();
+    return newList;
+  } catch (error) {
+    throw createError({
+      statusCode: 500,
+      statusMessage: String(error)
+    });
+  }
 };

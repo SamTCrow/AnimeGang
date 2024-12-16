@@ -15,7 +15,7 @@ import Account from "~/components/account/account.vue";
       </div>
     </div>
     <UContainer
-      class="flex w-full max-w-[1400px] flex-1 flex-col gap-4 bg-gray-100 py-4 dark:bg-gray-900"
+      class="flex w-full max-w-[1400px] flex-1 flex-col gap-4 bg-gray-100 dark:bg-gray-900"
     >
       <slot />
     </UContainer>

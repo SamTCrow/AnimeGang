@@ -2,14 +2,18 @@ import { z } from "zod";
 
 const schema = z.object({
   userId: z.number(),
-  animeId: z.number()
+  animeId: z.number(),
+  animeName: z.string()
 });
 
 export default eventHandler(async (event) => {
-  const { userId, animeId } = await readValidatedBody(event, schema.parse);
+  const { userId, animeId, animeName } = await readValidatedBody(
+    event,
+    schema.parse
+  );
   const session = await getUserSession(event);
 
-  if (!userId && animeId) {
+  if (!userId || !animeId || !animeName) {
     return sendError(
       event,
       createError({
@@ -23,7 +27,7 @@ export default eventHandler(async (event) => {
     try {
       const watched = await useDrizzle()
         .insert(tables.watchedAnime)
-        .values({ userId, animeId })
+        .values({ userId, animeId, animeName })
         .returning()
         .get();
       return watched;

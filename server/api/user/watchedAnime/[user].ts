@@ -1,5 +1,5 @@
 export default defineEventHandler(async (event) => {
-  const user = getRouterParam(event, "user");
+  const user = Number(getRouterParam(event, "user"));
 
   if (!user) {
     return sendError(
@@ -11,23 +11,19 @@ export default defineEventHandler(async (event) => {
     );
   }
 
-  const session = await getUserSession(event);
-
-  if (+user === session.user?.userId) {
-    try {
-      const watchedAnime = await useDrizzle()
-        .select({ animeId: tables.watchedAnime.animeId })
-        .from(tables.watchedAnime)
-        .where(eq(tables.watchedAnime.userId, session.user.userId));
-      return watchedAnime;
-    } catch (error) {
-      return sendError(
-        event,
-        createError({
-          status: 400,
-          statusMessage: "Database Error" + error
-        })
-      );
-    }
+  try {
+    const watchedAnime = await useDrizzle()
+      .select({ animeId: tables.watchedAnime.animeId })
+      .from(tables.watchedAnime)
+      .where(eq(tables.watchedAnime.userId, user));
+    return watchedAnime;
+  } catch (error) {
+    return sendError(
+      event,
+      createError({
+        status: 400,
+        statusMessage: "Database Error" + error
+      })
+    );
   }
 });
