@@ -1,8 +1,15 @@
 import type { highlightCard, JikanAnimeResponse } from "~/types/types";
+import {z} from "zod"
+
+const schema = z.object({
+  page: z.string().or(z.undefined()),
+}).parse
+
 export default cachedEventHandler(
-  async () => {
-    const { data } = await $fetch<JikanAnimeResponse>(
-      `https://api.jikan.moe/v4/seasons/now`
+  async (event) => {
+    const { page } = await getValidatedQuery(event, schema)
+    const { data, pagination } = await $fetch<JikanAnimeResponse>(
+      `https://api.jikan.moe/v4/seasons/now?page=${page ?? ""}`
     );
     const response = data.map<highlightCard>(
       (element) =>
@@ -20,7 +27,7 @@ export default cachedEventHandler(
     const season =
       (data[0].season ?? "Current Season") + " - " + new Date().getFullYear();
 
-    return { response, season };
+    return { response, season, pagination };
   },
 
   {

@@ -1,9 +1,5 @@
 <script lang="ts" setup>
 const { data: topAnime } = await useFetch("/api/top/anime", { lazy: true });
-const { data: topManga } = await useFetch("/api/top/manga", { lazy: true });
-const { data: topCharacters } = await useFetch("/api/top/characters", {
-  lazy: true
-});
 const { data: season } = await useFetch("/api/season/now", { lazy: true });
 </script>
 
@@ -17,18 +13,9 @@ const { data: season } = await useFetch("/api/season/now", { lazy: true });
       </h1>
       <Highlights :highlights="season.response" />
     </section>
-    <section class="">
-      <h1>Trending anime</h1>
-
-      <Highlights v-if="topAnime" :highlights="topAnime" />
-    </section>
-    <section class="">
-      <h1>Trending manga</h1>
-      <Highlights v-if="topManga" :highlights="topManga" />
-    </section>
-    <section class="">
-      <h1>Best Characters</h1>
-      <Highlights v-if="topCharacters" :highlights="topCharacters" />
+    <section v-if="topAnime">
+      <h1 class="bg-gray bg-opacity-5 text-lg">Trending anime</h1>
+      <Highlights :highlights="topAnime.data" />
     </section>
   </UContainer>
 </template>

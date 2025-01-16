@@ -19,6 +19,10 @@ import Account from "~/components/account/account.vue";
     >
       <slot />
     </UContainer>
-    <div class="h-32 w-full bg-gray-200 dark:bg-gray-800">footer</div>
+    <div
+      class="flex h-32 w-full items-center justify-items-center bg-gray-200 dark:bg-gray-800"
+    >
+      <span class="mx-auto">AnimeGang!</span>
+    </div>
   </div>
 </template>

@@ -9,8 +9,8 @@ export type highlightCard = {
   studio?: string;
   type?: string;
   rank?: number;
-  season?: string;
-  year?: number;
+  season?: string | null;
+  year?: number | null;
   genres?: Demographic[];
 };
 

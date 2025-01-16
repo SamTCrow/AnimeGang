@@ -1,7 +1,7 @@
 import { getListById } from "~/server/utils/database";
 
 export default defineEventHandler(async (event) => {
-  const listId = getRouterParam(event, "id");
+  const listId = Number(getRouterParam(event, "id"));
 
   if (!listId) {
     throw createError({

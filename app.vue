@@ -2,6 +2,8 @@
 const { watchedAnimes, fetchWatchedAnimes } = useWatchedAnimes();
 const { userLists, fetchUserLists } = useUserLists();
 const { loggedIn, user } = useUserSession();
+const { likedChar, fetchLikedChar } = useLikedChar();
+const { userScores, fetchUserScores } = useUserScores();
 
 if (loggedIn.value && user.value) {
   if (watchedAnimes.value.length === 0) {
@@ -9,6 +11,12 @@ if (loggedIn.value && user.value) {
   }
   if (userLists.value.length === 0) {
     fetchUserLists(user.value.userId);
+  }
+  if (likedChar.value.length === 0) {
+    fetchLikedChar(user.value.userId);
+  }
+  if (userScores.value.length === 0) {
+    fetchUserScores(user.value.userId);
   }
 }
 </script>

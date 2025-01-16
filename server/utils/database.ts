@@ -52,10 +52,10 @@ export const getUserLists = async (userId: number) => {
           acc.push({ list: goodList, anime: [] });
         }
 
-        if(anime) {
-          const updatedList = acc.find((item) => item.list.id === goodList.id)
-          if(updatedList) {
-            updatedList.anime.push(anime)
+        if (anime) {
+          const updatedList = acc.find((item) => item.list.id === goodList.id);
+          if (updatedList) {
+            updatedList.anime.push(anime);
           }
         }
 
@@ -122,6 +122,67 @@ export const addList = async (userId: number, name: string) => {
       .returning()
       .get();
     return newList;
+  } catch (error) {
+    throw createError({
+      statusCode: 500,
+      statusMessage: String(error)
+    });
+  }
+};
+
+export const getCharacterLike = async (userId: number) => {
+  try {
+    const likedChar = await useDrizzle()
+      .select({
+        charId: tables.characterLike.characterId,
+        charName: tables.characterLike.characterName
+      })
+      .from(tables.characterLike)
+      .where(eq(tables.characterLike.userId, userId));
+    return likedChar;
+  } catch (error) {
+    throw createError({
+      statusCode: 500,
+      statusMessage: String(error)
+    });
+  }
+};
+
+export const getUserScores = async (userId: number) => {
+  try {
+    const userScores = await useDrizzle()
+      .select()
+      .from(tables.score)
+      .where(eq(tables.score.userID, userId));
+    return userScores;
+  } catch (error) {
+    throw createError({
+      statusCode: 500,
+      statusMessage: String(error)
+    });
+  }
+};
+
+export const addUserScore = async (
+  userId: number,
+  animeId: number,
+  score: number
+) => {
+  try {
+    const newScore = await useDrizzle()
+      .insert(tables.score)
+      .values({
+        userID: userId,
+        animeID: animeId,
+        score
+      })
+      .onConflictDoUpdate({
+        target: [tables.score.animeID, tables.score.userID],
+        set: { score: score }
+      })
+      .returning()
+      .get();
+    return newScore;
   } catch (error) {
     throw createError({
       statusCode: 500,

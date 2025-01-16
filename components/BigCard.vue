@@ -11,7 +11,7 @@ const { card } = defineProps<props>();
 <template>
   <UCard class="max-w-[600px]">
     <template #header>
-      <div class="flex justify-between">
+      <div class="flex flex-col">
         <span class="text-md">{{ card.title }}</span>
         <span class="text-sm">{{ card.status }}</span>
       </div>

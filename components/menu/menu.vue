@@ -3,8 +3,8 @@ const open = ref(false);
 
 const menu = [
   {
-    label: "Anime",
-    to: "/anime",
+    label: "AnimeGang",
+    to: "/",
     links: [
       [
         {
@@ -15,46 +15,7 @@ const menu = [
           label: "Anime season",
           to: "/anime/season"
         },
-        {
-          label: "Browse Anime",
-          to: "/anime/browse"
-        }
-      ]
-    ]
-  },
-  {
-    label: "Manga",
-    to: "/manga",
-    links: [
-      [
-        {
-          label: "Top Manga",
-          to: "/manga/top"
-        },
-        {
-          label: "Browse Manga",
-          to: "/manga/browse"
-        }
-      ]
-    ]
-  },
-  {
-    label: "Characters",
-    to: "/characters",
-    links: [
-      [
-        {
-          label: "Best characters",
-          to: "/characters/best"
-        },
-        {
-          label: "Worst characters",
-          to: "/characters/worst"
-        },
-        {
-          label: "Browse Characters",
-          to: "/characters/worst"
-        }
+        
       ]
     ]
   }

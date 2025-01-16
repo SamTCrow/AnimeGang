@@ -1,4 +1,4 @@
-import { getCharacterLike } from "~/server/utils/database";
+import { getUserScores } from "~/server/utils/database";
 
 export default defineEventHandler(async (event) => {
   const user = Number(getRouterParam(event, "user"));
@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    const likedChar = getCharacterLike(user);
+    const likedChar = getUserScores(user);
     return likedChar;
   } catch (error) {
     throw createError({
