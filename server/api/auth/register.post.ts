@@ -43,7 +43,7 @@ export default defineEventHandler(async (event) => {
   const userData: User = {
     username,
     email,
-    name,
+
     password: await hashPassword(password)
   };
 
@@ -56,8 +56,7 @@ export default defineEventHandler(async (event) => {
     .returning({
       id: tables.user.id,
       username: tables.user.username,
-      email: tables.user.email,
-      name: tables.user.name
+      email: tables.user.email
     })
     .get();
 
@@ -79,8 +78,7 @@ export default defineEventHandler(async (event) => {
     user: {
       userName: user.username,
       userId: user.id,
-      email: user.email,
-      name: user.name
+      email: user.email
     },
     loggedInAt: Date.now()
   });

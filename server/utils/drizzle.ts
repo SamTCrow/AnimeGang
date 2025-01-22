@@ -11,3 +11,4 @@ export function useDrizzle() {
 export type User = typeof schema.user.$inferInsert;
 export type List = typeof schema.list.$inferSelect;
 export type listToAnime = typeof schema.listToAnime.$inferInsert;
+export type comments = typeof schema.comments.$inferInsert;

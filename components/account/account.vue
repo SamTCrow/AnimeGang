@@ -47,6 +47,7 @@ const items = [
           variant="ghost"
           label="LogOut"
           class="w-full p-0"
+          color="gray"
           @click="clear"
         />
       </template>

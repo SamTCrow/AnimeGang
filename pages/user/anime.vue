@@ -42,6 +42,10 @@ onMounted(() => {
       v-if="loggedIn && hydrated"
       :columns="columns"
       :rows="userAnimes"
+      :empty-state="{
+        icon: 'i-heroicons-circle-stack-20-solid',
+        label: 'No animes found'
+      }"
       class="p-4"
     >
       <template #name-data="{ row }">

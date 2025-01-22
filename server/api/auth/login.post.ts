@@ -48,8 +48,7 @@ export default defineEventHandler(async (event) => {
     user: {
       userName: user.username,
       userId: user.id,
-      email: user.email,
-      name: user.name
+      email: user.email
     },
     loggedInAt: Date.now()
   });

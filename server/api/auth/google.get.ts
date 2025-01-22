@@ -2,12 +2,11 @@ import { createWantToWatchList } from "~/server/utils/database";
 
 export default defineOAuthGoogleEventHandler({
   async onSuccess(event, { user }) {
-    const isRegistered = await getUserByUsername(user.sub);
+    const isRegistered = await getUserByUsername(user.name);
     if (!isRegistered) {
       const userData: User = {
-        username: user.sub,
+        username: user.name,
         email: user.email,
-        name: user.name,
         password: "",
         verified: true
       };
@@ -20,8 +19,7 @@ export default defineOAuthGoogleEventHandler({
         .returning({
           id: tables.user.id,
           username: tables.user.username,
-          email: tables.user.email,
-          name: tables.user.name
+          email: tables.user.email
         })
         .get();
 
@@ -30,20 +28,17 @@ export default defineOAuthGoogleEventHandler({
         user: {
           userName: newUser.username,
           userId: newUser.id,
-          email: newUser.email,
-          name: newUser.name
+          email: newUser.email
         },
         loggedInAt: Date.now()
       });
       return sendRedirect(event, "/");
-      
     }
     await setUserSession(event, {
       user: {
         userName: isRegistered.username,
         userId: isRegistered.id,
-        email: isRegistered.email,
-        name: isRegistered.name
+        email: isRegistered.email
       },
       loggedInAt: Date.now()
     });

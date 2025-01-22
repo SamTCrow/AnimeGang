@@ -57,6 +57,20 @@
       "when": 1737481323033,
       "tag": "0007_optimal_living_lightning",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1737557586330,
+      "tag": "0008_lame_sharon_ventura",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "6",
+      "when": 1737561497259,
+      "tag": "0009_crazy_warbird",
+      "breakpoints": true
     }
   ]
 }

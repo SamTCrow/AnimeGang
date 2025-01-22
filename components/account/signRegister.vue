@@ -69,7 +69,6 @@ const onRegister = async (form: SchemaRegister) => {
         username: form.username,
         password: form.password,
         repeatPassword: form.repeatPassword,
-        name: form.name,
         email: form.email
       }
     });
@@ -122,9 +121,6 @@ const onRegister = async (form: SchemaRegister) => {
             :state="registerForm"
             @submit.prevent="() => onRegister(registerForm)"
           >
-            <UFormGroup label="Name" name="name" required>
-              <UInput v-model="registerForm.name" required />
-            </UFormGroup>
             <UFormGroup label="Email" name="email" required>
               <UInput v-model="registerForm.email" type="email" required />
             </UFormGroup>

@@ -32,6 +32,10 @@ onMounted(() => (hydrated.value = true));
       v-if="loggedIn && hydrated"
       :columns="columns"
       :rows="userLikedChars"
+      :empty-state="{
+        icon: 'i-heroicons-circle-stack-20-solid',
+        label: 'No characters found'
+      }"
       class="p-4"
     >
       <template #animeName-data="{ row }">

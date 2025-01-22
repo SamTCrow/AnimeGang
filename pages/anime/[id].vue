@@ -34,6 +34,10 @@ const items = [
   {
     key: "characters",
     label: "Characters"
+  },
+  {
+    key: "comments",
+    label: "Comments"
   }
 ];
 const q = ref("");
@@ -156,6 +160,9 @@ const filteredRows = computed(() => {
                 />
               </template>
             </UTable>
+          </div>
+          <div v-if="item.key === 'comments'">
+            <CommentsList :reference-id="animeId" />
           </div>
         </template>
       </UTabs>

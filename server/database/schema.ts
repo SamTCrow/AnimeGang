@@ -1,3 +1,4 @@
+import type { AnySQLiteColumn } from "drizzle-orm/sqlite-core";
 import {
   sqliteTable,
   text,
@@ -9,7 +10,7 @@ import { relations, sql } from "drizzle-orm";
 //Da finire tabella utenti
 export const user = sqliteTable("user", {
   id: integer("id").primaryKey(),
-  name: text("name"),
+
   username: text("username").notNull().unique(),
   password: text("password").notNull(),
   email: text("email").unique().notNull(),
@@ -25,7 +26,8 @@ export const userRelations = relations(user, ({ many }) => ({
   animeList: many(list),
   scores: many(score),
   watchedAnime: many(watchedAnime),
-  characterLike: many(characterLike)
+  characterLike: many(characterLike),
+  comments: many(comments)
 }));
 
 export const list = sqliteTable("list", {
@@ -119,4 +121,31 @@ export const characterLikeRelation = relations(characterLike, ({ one }) => ({
     fields: [characterLike.userId],
     references: [user.id]
   })
+}));
+
+export const comments = sqliteTable("comments", {
+  id: integer("id").primaryKey(),
+  author: integer("author")
+    .notNull()
+    .references(() => user.id),
+  createdAt: integer("createdAt", {
+    mode: "timestamp"
+  }).notNull(),
+  message: text("text").notNull(),
+  referenceId: integer("referenceId").notNull(),
+  referenceType: text("referenceType"),
+  parentId: integer("parentId").references((): AnySQLiteColumn => comments.id)
+});
+
+export const commentsRelations = relations(comments, ({ one, many }) => ({
+  user: one(user, {
+    fields: [comments.author],
+    references: [user.id]
+  }),
+  parent: one(comments, {
+    fields: [comments.parentId],
+    references: [comments.id],
+    relationName: "parentComment"
+  }),
+  children: many(comments)
 }));
