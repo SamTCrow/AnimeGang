@@ -36,7 +36,7 @@ export default defineOAuthGoogleEventHandler({
         loggedInAt: Date.now()
       });
       return sendRedirect(event, "/");
-      console.log(newUser);
+      
     }
     await setUserSession(event, {
       user: {

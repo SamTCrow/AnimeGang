@@ -33,9 +33,9 @@ export default defineNuxtConfig({
     oauth: {
       google: {
         clientId:
-          "272972600238-thoehn9uuipm8tpkvoc6hkc8ch36do1j.apps.googleusercontent.com",
-        clientSecret: "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",
-        redirectURL: "http://localhost:3000/api/auth/google"
+          "",
+        clientSecret: "",
+        redirectURL: ""
       }
     }
   },
