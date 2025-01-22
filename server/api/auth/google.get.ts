@@ -25,7 +25,7 @@ export default defineOAuthGoogleEventHandler({
         })
         .get();
 
-      createWantToWatchList(newUser.id);
+      await createWantToWatchList(newUser.id);
       await setUserSession(event, {
         user: {
           userName: newUser.username,

@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
 
   if (session.user?.userId === userId) {
     try {
-      const list = addList(userId, name);
+      const list = await addList(userId, name);
       return list;
     } catch (error) {
       throw createError({

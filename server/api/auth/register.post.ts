@@ -71,7 +71,7 @@ export default defineEventHandler(async (event) => {
     );
   }
 
-  createWantToWatchList(user.id);
+  await createWantToWatchList(user.id);
 
   // add email verification
 

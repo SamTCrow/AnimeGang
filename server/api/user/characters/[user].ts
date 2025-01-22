@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    const likedChar = getCharacterLike(user);
+    const likedChar = await getCharacterLike(user);
     return likedChar;
   } catch (error) {
     throw createError({

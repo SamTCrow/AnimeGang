@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    const lists = getUserLists(+user);
+    const lists = await getUserLists(+user);
     return lists;
   } catch (error) {
     return sendError(
