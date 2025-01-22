@@ -35,7 +35,7 @@ watchEffect(async () => {
   );
   if (data) {
     searchResult.value = data;
-    maxPage.value = pagination.last_visible_page;
+    maxPage.value = pagination.items.total;
   }
 });
 </script>
@@ -46,7 +46,7 @@ watchEffect(async () => {
       <UPagination
         v-model="page"
         :total="maxPage"
-        :page-count="6"
+        :page-count="ph"
         :active-button="{ variant: 'outline' }"
         :inactive-button="{ color: 'gray' }"
       />
@@ -69,7 +69,7 @@ watchEffect(async () => {
       <UPagination
         v-model="page"
         :total="maxPage"
-        :page-count="6"
+        :page-count="ph"
         :active-button="{ variant: 'outline' }"
         :inactive-button="{ color: 'gray' }"
       />

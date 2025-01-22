@@ -133,10 +133,7 @@ export const addList = async (userId: number, name: string) => {
 export const getCharacterLike = async (userId: number) => {
   try {
     const likedChar = await useDrizzle()
-      .select({
-        charId: tables.characterLike.characterId,
-        charName: tables.characterLike.characterName
-      })
+      .select()
       .from(tables.characterLike)
       .where(eq(tables.characterLike.userId, userId));
     return likedChar;
@@ -183,6 +180,27 @@ export const addUserScore = async (
       .returning()
       .get();
     return newScore;
+  } catch (error) {
+    throw createError({
+      statusCode: 500,
+      statusMessage: String(error)
+    });
+  }
+};
+
+export const deleteAnimeFromList = async (listId: number, animeId: number) => {
+  try {
+    const deleteAnime = useDrizzle()
+      .delete(tables.listToAnime)
+      .where(
+        and(
+          eq(tables.listToAnime.listId, listId),
+          eq(tables.listToAnime.animeId, animeId)
+        )
+      )
+      .returning()
+      .get();
+    return deleteAnime;
   } catch (error) {
     throw createError({
       statusCode: 500,

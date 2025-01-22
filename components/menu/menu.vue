@@ -14,8 +14,7 @@ const menu = [
         {
           label: "Anime season",
           to: "/anime/season"
-        },
-        
+        }
       ]
     ]
   }
@@ -65,6 +64,7 @@ const menu = [
           <ULink
             :to="item.to"
             class="dark:hover:text-primary-200 hover:text-primary-800 text-xl"
+            @click="open = false"
             >{{ item.label }}</ULink
           >
           <ul class="mt-2">
@@ -76,7 +76,9 @@ const menu = [
               <ULink
                 v-for="link in menulinks"
                 :key="link.label"
+                :to="link.to"
                 class="dark:hover:text-primary-200 hover:text-primary-800"
+                @click="open = false"
               >
                 {{ link.label }}
               </ULink>

@@ -1,8 +1,7 @@
 export const useWatchedAnimes = () => {
-  const watchedAnimes = useState<{ animeId: number }[]>(
-    "watchedAnime",
-    () => []
-  );
+  const watchedAnimes = useState<
+    { animeId: number; animeName: string; userId: number }[]
+  >("watchedAnime", () => []);
   const loading = useState("loading", () => false);
   const error = useState<string | null>("error", () => null);
 

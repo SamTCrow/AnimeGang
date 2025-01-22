@@ -3,7 +3,7 @@ import { addUserScore } from "~/server/utils/database";
 const schema = z.object({
   userId: z.number(),
   animeId: z.number(),
-  score: z.number().min(1).max(10)
+  score: z.number().min(0).max(10)
 }).parse;
 
 export default defineEventHandler(async (event) => {

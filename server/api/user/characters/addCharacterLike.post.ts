@@ -3,14 +3,14 @@ import { z } from "zod";
 const schema = z.object({
   characterId: z.number(),
   characterName: z.string(),
+  animeId: z.number(),
+  animeName: z.string(),
   userId: z.number()
 }).parse;
 
 export default defineEventHandler(async (event) => {
-  const { characterId, characterName, userId } = await readValidatedBody(
-    event,
-    schema
-  );
+  const { characterId, characterName, userId, animeId, animeName } =
+    await readValidatedBody(event, schema);
   const { user } = await getUserSession(event);
 
   if (!userId || !characterId || !characterName) {
@@ -33,7 +33,9 @@ export default defineEventHandler(async (event) => {
       .values({
         userId,
         characterId,
-        characterName
+        characterName,
+        characterAnimeName: animeName,
+        characterAnimeId: animeId
       })
       .returning()
       .get();

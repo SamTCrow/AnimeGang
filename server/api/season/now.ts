@@ -1,13 +1,13 @@
 import type { highlightCard, JikanAnimeResponse } from "~/types/types";
-import {z} from "zod"
+import { z } from "zod";
 
 const schema = z.object({
-  page: z.string().or(z.undefined()),
-}).parse
+  page: z.string().or(z.undefined())
+}).parse;
 
 export default cachedEventHandler(
   async (event) => {
-    const { page } = await getValidatedQuery(event, schema)
+    const { page } = await getValidatedQuery(event, schema);
     const { data, pagination } = await $fetch<JikanAnimeResponse>(
       `https://api.jikan.moe/v4/seasons/now?page=${page ?? ""}`
     );
@@ -31,7 +31,7 @@ export default cachedEventHandler(
   },
 
   {
-    maxAge: 60 * 60 * 24 * 30, // 1 month
+    maxAge: 60 * 60 * 24 * 7, // 1 month
     getKey: (event) => event.path
   }
 );

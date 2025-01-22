@@ -1,36 +1,10 @@
 <script lang="ts" setup>
-const { fetchUserScores, userScores } = useUserScores();
 const route = useRoute();
 const animeId = +route.params.id;
 const { data: animeInfo } = await useFetch(`/api/anime/${animeId}`);
-const { user } = useUserSession();
+
 const hydrated = ref(false);
-const score = computed({
-  get: () =>
-    userScores.value.find((score) => score.animeID === animeId)?.score ?? 1,
 
-  set: async (newScore) => {
-    if (!user.value?.userId) return null;
-    if (!newScore) return null;
-
-    userScores.value.push({
-      score: newScore,
-      userID: user.value.userId,
-      animeID: animeId
-    });
-
-    await $fetch("/api/user/score/addScore", {
-      method: "POST",
-      body: {
-        userId: user.value.userId,
-        animeId: animeId,
-        score: newScore
-      }
-    });
-    await fetchUserScores(user.value.userId);
-    return newScore;
-  }
-});
 onMounted(() => {
   hydrated.value = true;
 });
@@ -108,7 +82,7 @@ const filteredRows = computed(() => {
 
       <AuthState v-slot="{ loggedIn }">
         <div v-if="loggedIn && hydrated" class="flex flex-col gap-6">
-          <div v-if="loggedIn && hydrated" class="flex justify-between">
+          <div class="flex justify-between">
             <UiWatchedButton
               :anime-id="animeId"
               :anime-name="animeInfo?.animeData.title"
@@ -120,12 +94,9 @@ const filteredRows = computed(() => {
               >Add to list</UiAddToListButton
             >
           </div>
-          <div v-if="loggedIn && hydrated">
-            <URange v-model="score" :min="1" :max="10" />
-            <div class="mx-auto flex w-[75%] justify-between text-center">
-              <span>Your Score: </span>
-              <span>{{ score }}</span>
-            </div>
+          <div class="mx-auto flex items-center justify-center gap-4">
+            <span>Your Score: </span>
+            <UiSetScore :anime-id="animeId" />
           </div>
         </div>
       </AuthState>
@@ -149,14 +120,14 @@ const filteredRows = computed(() => {
         <template #item="{ item }">
           <div v-if="item.key === 'overview'" class="flex flex-col gap-4">
             <div class="p-2">
-              <h1 class="text-center font-bold">Summary</h1>
-              <span class="prose dark:prose-invert mx-auto">{{
-                animeInfo.animeData.synopsis
-              }}</span>
+              <h1 class="p-2 text-center font-bold">Summary</h1>
+              <div class="prose dark:prose-invert mx-auto text-justify">
+                {{ animeInfo.animeData.synopsis }}
+              </div>
             </div>
             <ScriptYouTubePlayer
               v-if="animeInfo.animeData.trailer"
-              trigger="visible\"
+              trigger="visible"
               :video-id="animeInfo.animeData.trailer"
               class="mx-auto"
             />
@@ -180,6 +151,8 @@ const filteredRows = computed(() => {
                   v-if="hydrated"
                   :character-id="row.id"
                   :character-name="row.name"
+                  :anime-id="animeId"
+                  :anime-name="animeInfo.animeData.title"
                 />
               </template>
             </UTable>

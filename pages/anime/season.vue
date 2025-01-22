@@ -3,7 +3,7 @@
 const searchResult = ref<any>(null);
 const seasonNow = ref("");
 const page = ref(1);
-const maxPage = ref(1);
+const total = ref(1);
 const ph = ref(25);
 
 watchEffect(async () => {
@@ -16,8 +16,7 @@ watchEffect(async () => {
   if (data) {
     searchResult.value = data;
     seasonNow.value = season;
-    maxPage.value = pagination.last_visible_page;
-    
+    total.value = pagination.items.total;
   }
 });
 </script>
@@ -27,8 +26,8 @@ watchEffect(async () => {
     <div class="flex justify-between pt-6">
       <UPagination
         v-model="page"
-        :total="maxPage"
-        :page-count="6"
+        :total="total"
+        :page-count="ph"
         :active-button="{ variant: 'outline' }"
         :inactive-button="{ color: 'gray' }"
       />
@@ -42,8 +41,8 @@ watchEffect(async () => {
     <div class="flex justify-between pb-6">
       <UPagination
         v-model="page"
-        :total="maxPage"
-        :page-count="6"
+        :total="total"
+        :page-count="ph"
         :active-button="{ variant: 'outline' }"
         :inactive-button="{ color: 'gray' }"
       />

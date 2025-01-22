@@ -1,13 +1,15 @@
 <script lang="ts" setup>
-const { characterId, characterName } = defineProps<{
+const { characterId, characterName, animeId, animeName } = defineProps<{
   characterId: number;
   characterName: string;
+  animeId: number;
+  animeName: string;
 }>();
 const { user, loggedIn } = useUserSession();
 const userId = user.value?.userId;
 const { likedChar, fetchLikedChar } = useLikedChar();
 const liked = computed(() => {
-  return likedChar.value.some((char) => char.charId === characterId);
+  return likedChar.value.some((char) => char.characterId === characterId);
 });
 const handleSubmit = async () => {
   if (userId) {
@@ -18,7 +20,9 @@ const handleSubmit = async () => {
           body: {
             userId,
             characterId,
-            characterName
+            characterName,
+            animeId,
+            animeName
           }
         });
         await fetchLikedChar(userId);

@@ -14,8 +14,8 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    const likedChar = getUserScores(user);
-    return likedChar;
+    const score = await getUserScores(user);
+    return score;
   } catch (error) {
     throw createError({
       statusCode: 500,

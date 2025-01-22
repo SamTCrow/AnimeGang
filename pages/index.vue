@@ -14,7 +14,7 @@ const { data: season } = await useFetch("/api/season/now", { lazy: true });
       <Highlights :highlights="season.response" />
     </section>
     <section v-if="topAnime">
-      <h1 class="bg-gray bg-opacity-5 text-lg">Trending anime</h1>
+      <h1 class="bg-gray bg-opacity-5 text-lg">TRENDING ANIME</h1>
       <Highlights :highlights="topAnime.data" />
     </section>
   </UContainer>

@@ -5,28 +5,20 @@ const items = [
   [{ label: `Welcome`, slot: "account" }],
   [
     {
-      label: "Profile",
-      to: "/profile",
-      icon: "material-symbols-light:account-circle"
+      label: "My Lists",
+      to: "/user/lists"
     }
   ],
   [
     {
       label: "My anime",
-      to: "/profile/myanime",
+      to: "/user/anime",
       icon: "tabler:square-rounded-letter-a"
     },
     {
-      label: "My manga",
-      to: "/profile/mymanga",
-      icon: "tabler:square-rounded-letter-m"
-    }
-  ],
-  [
-    {
-      label: "Setting",
-      to: "/profile/settings",
-      icon: "akar-icons:gear"
+      label: "My Characters",
+      to: "/user/characters",
+      icon: "tabler:square-rounded-letter-c"
     }
   ],
   [
@@ -47,7 +39,7 @@ const items = [
     >
       <UButton :icon="profileIcon" variant="ghost" />
       <template #account>
-        <span class="truncate text-sm"> {{ user?.name }}</span>
+        <span class="truncate text-sm">Welcome {{ user?.name }}</span>
       </template>
       <template #utils>
         <UButton

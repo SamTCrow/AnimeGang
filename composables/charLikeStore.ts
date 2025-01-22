@@ -1,10 +1,13 @@
-interface likedChar {
-  charId: number;
-  charName: string;
-}
-
 export const useLikedChar = () => {
-  const likedChar = useState<likedChar[]>("likedChar", () => []);
+  const likedChar = useState<
+    {
+      userId: number;
+      characterId: number;
+      characterName: string;
+      characterAnimeId: number;
+      characterAnimeName: string;
+    }[]
+  >("likedChar", () => []);
   const loading = useState("loading", () => false);
   const error = useState<string | null>("error", () => null);
   const fetchLikedChar = async (userId: number) => {

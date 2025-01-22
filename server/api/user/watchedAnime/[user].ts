@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
 
   try {
     const watchedAnime = await useDrizzle()
-      .select({ animeId: tables.watchedAnime.animeId })
+      .select()
       .from(tables.watchedAnime)
       .where(eq(tables.watchedAnime.userId, user));
     return watchedAnime;

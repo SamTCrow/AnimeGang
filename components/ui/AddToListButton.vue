@@ -60,6 +60,7 @@ const selectCreateList = computed({
       disabled: false
     });
     list.value.id = listDb.id;
+    newList.name = "";
     return response;
   }
 });

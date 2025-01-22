@@ -2,7 +2,7 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const searchResult = ref<any>(null);
 const page = ref(1);
-const maxPage = ref(1);
+const total = ref(1);
 const ph = ref(25);
 const filter = ref("bypopularity");
 const filterOption = [
@@ -31,7 +31,7 @@ watchEffect(async () => {
   );
   if (data) {
     searchResult.value = data;
-    maxPage.value = pagination.last_visible_page;
+    total.value = pagination.items.total;
   }
 });
 </script>
@@ -41,8 +41,8 @@ watchEffect(async () => {
     <div class="flex justify-between pt-6">
       <UPagination
         v-model="page"
-        :total="maxPage"
-        :page-count="6"
+        :total="total"
+        :page-count="ph"
         :active-button="{ variant: 'outline' }"
         :inactive-button="{ color: 'gray' }"
       />
@@ -63,8 +63,8 @@ watchEffect(async () => {
     <div class="flex justify-between pb-6">
       <UPagination
         v-model="page"
-        :total="maxPage"
-        :page-count="6"
+        :total="total"
+        :page-count="ph"
         :active-button="{ variant: 'outline' }"
         :inactive-button="{ color: 'gray' }"
       />

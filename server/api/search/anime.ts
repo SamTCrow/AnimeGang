@@ -2,14 +2,14 @@ import type { highlightCard, JikanAnimeResponse } from "~/types/types";
 import { z } from "zod";
 
 const querySchema = z.object({
-  q: z.string()
-});
+  q: z.string(),
+  page: z.string().or(z.undefined())
+}).parse;
 
 export default defineEventHandler(async (event) => {
-  const query = getValidatedQuery(event, querySchema.parse);
-  const { q } = await query;
-  const { data } = await $fetch<JikanAnimeResponse>(
-    `https://api.jikan.moe/v4/anime?q=${q}&order_by=popularity`
+  const { q: query, page } = await getValidatedQuery(event, querySchema);
+  const { data, pagination } = await $fetch<JikanAnimeResponse>(
+    `https://api.jikan.moe/v4/anime?q=${query}&order_by=popularity&page=${page ?? ""}`
   );
   const response = data.map<highlightCard>((element) => {
     return {
@@ -22,5 +22,5 @@ export default defineEventHandler(async (event) => {
     } satisfies highlightCard;
   });
 
-  return response;
+  return { response, pagination };
 });

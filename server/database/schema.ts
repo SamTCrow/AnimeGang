@@ -46,7 +46,7 @@ export const listToAnime = sqliteTable(
   {
     listId: integer("listId")
       .notNull()
-      .references(() => list.id),
+      .references(() => list.id, { onDelete: "cascade" }),
     animeId: integer("animeId").notNull(),
     animeName: text("animeName").notNull()
   },
@@ -105,6 +105,8 @@ export const characterLike = sqliteTable(
   {
     characterId: integer("characterId").notNull(),
     characterName: text("characterName").notNull(),
+    characterAnimeId: integer("characterAnimeId").notNull(),
+    characterAnimeName: text("characterAnimeName").notNull(),
     userId: integer("userId")
       .notNull()
       .references(() => user.id)
