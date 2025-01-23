@@ -9,7 +9,13 @@ const { card } = defineProps<props>();
 </script>
 
 <template>
-  <UCard class="max-w-[600px]">
+  <UCard
+    class="max-w-[600px]"
+    :ui="{
+      background: 'opacity-90 bg-opacity-90 dark:bg-opacity-90',
+      strategy: 'override'
+    }"
+  >
     <template #header>
       <div class="flex flex-col">
         <span class="text-md">{{ card.title }}</span>
@@ -24,10 +30,15 @@ const { card } = defineProps<props>();
         <UBadge
           v-for="genres in card.genres"
           :key="genres.mal_id + card.id"
-          :label="genres.name"
           variant="solid"
           color="gray"
-        />
+        >
+          <ULink
+            :to="`/anime/genre/${genres.mal_id}`"
+            class="hover:opacity-90"
+            >{{ genres.name }}</ULink
+          >
+        </UBadge>
       </div>
     </template>
   </UCard>

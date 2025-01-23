@@ -15,7 +15,13 @@ const { card } = defineProps<props>();
       card.title
     }}</span>
 
-    <UPopover mode="hover" :popper="{ placement: 'auto' }">
+    <UPopover
+      mode="hover"
+      :popper="{ placement: 'bottom' }"
+      :ui="{
+        background: 'opacity-95'
+      }"
+    >
       <ULink :to="`/anime/${card.id}`" class="flex flex-col">
         <NuxtImg
           :src="card.cover"

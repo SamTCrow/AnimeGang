@@ -43,24 +43,17 @@ const selectCreateList = computed({
       disabled: false
     };
 
-    list.value = response;
     if (user.value) {
+      await $fetch("/api/user/list/addList", {
+        method: "POST",
+        body: {
+          userId: user.value?.userId,
+          name: z.string().parse(newList?.name)
+        }
+      });
       await fetchUserLists(user.value.userId);
     }
-    const listDb = await $fetch("/api/user/list/addList", {
-      method: "POST",
-      body: {
-        userId: user.value?.userId,
-        name: z.string().parse(newList?.name)
-      }
-    });
-    lists.value.push({
-      name: response.name,
-      id: listDb.id,
-      disabled: false
-    });
-    list.value.id = listDb.id;
-    newList.name = "";
+
     return response;
   }
 });
@@ -76,6 +69,7 @@ const onAddAnime = async () => {
       }
     });
     list.value.disabled = true;
+    selectCreateList.value.name = "";
     isOpen.value = false;
     if (user.value) {
       await fetchUserLists(user.value?.userId);

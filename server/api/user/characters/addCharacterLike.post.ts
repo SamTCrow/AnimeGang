@@ -1,11 +1,11 @@
 import { z } from "zod";
 
 const schema = z.object({
-  characterId: z.number(),
+  characterId: z.number().positive().lt(9999999999),
   characterName: z.string(),
-  animeId: z.number(),
+  animeId: z.number().positive().lt(9999999999),
   animeName: z.string(),
-  userId: z.number()
+  userId: z.number().positive().lt(9999999999)
 }).parse;
 
 export default defineEventHandler(async (event) => {

@@ -2,7 +2,7 @@ import { z } from "zod";
 import { addList } from "~/server/utils/database";
 
 const schema = z.object({
-  userId: z.number(),
+  userId: z.number().positive().lt(9999999999),
   name: z.string()
 });
 

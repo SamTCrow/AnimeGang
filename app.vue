@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 const { watchedAnimes, fetchWatchedAnimes } = useWatchedAnimes();
 const { userLists, fetchUserLists } = useUserLists();
-const { loggedIn, user } = useUserSession();
 const { likedChar, fetchLikedChar } = useLikedChar();
 const { userScores, fetchUserScores } = useUserScores();
+const { loggedIn, user } = useUserSession();
 
 if (loggedIn.value && user.value) {
   if (watchedAnimes.value.length === 0) {
@@ -19,6 +19,17 @@ if (loggedIn.value && user.value) {
     fetchUserScores(user.value.userId);
   }
 }
+
+watch(user, async () => {
+  if (user.value) {
+    await Promise.all([
+      fetchWatchedAnimes(user.value.userId),
+      fetchUserLists(user.value.userId),
+      fetchLikedChar(user.value.userId),
+      fetchUserScores(user.value.userId)
+    ]);
+  }
+});
 </script>
 
 <template>

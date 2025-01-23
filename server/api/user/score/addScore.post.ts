@@ -1,9 +1,9 @@
 import { z } from "zod";
 import { addUserScore } from "~/server/utils/database";
 const schema = z.object({
-  userId: z.number(),
-  animeId: z.number(),
-  score: z.number().min(0).max(10)
+  userId: z.number().positive().lt(9999999999),
+  animeId: z.number().positive().lt(9999999999),
+  score: z.number().positive().lt(9999999999)
 }).parse;
 
 export default defineEventHandler(async (event) => {

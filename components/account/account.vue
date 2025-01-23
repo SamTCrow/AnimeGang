@@ -39,7 +39,7 @@ const items = [
     >
       <UButton :icon="profileIcon" variant="ghost" />
       <template #account>
-        <span class="truncate text-sm">Welcome {{ user?.name }}</span>
+        <span class="truncate text-sm">Welcome {{ user?.userName }}</span>
       </template>
       <template #utils>
         <UButton

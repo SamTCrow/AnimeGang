@@ -1,8 +1,8 @@
 import { z } from "zod";
 
 const schema = z.object({
-  characterId: z.number(),
-  userId: z.number()
+  characterId: z.number().positive().lt(9999999999),
+  userId: z.number().positive().lt(9999999999)
 }).parse;
 
 export default defineEventHandler(async (event) => {

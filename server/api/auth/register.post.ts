@@ -4,19 +4,17 @@ import { z } from "zod";
 import { createWantToWatchList } from "~/server/utils/database";
 
 export default defineEventHandler(async (event) => {
-  const { username, email, password, repeatPassword, name } =
-    await readValidatedBody(
-      event,
-      z.object({
-        username: z.string(),
-        email: z.string().email(),
-        password: z.string().min(8),
-        repeatPassword: z.string(),
-        name: z.string()
-      }).parse
-    );
+  const { username, email, password, repeatPassword } = await readValidatedBody(
+    event,
+    z.object({
+      username: z.string().min(3).max(20),
+      email: z.string().email(),
+      password: z.string().min(8).max(20),
+      repeatPassword: z.string().min(8).max(20)
+    }).parse
+  );
 
-  if (!username || !email || !password || !repeatPassword || !name) {
+  if (!username || !email || !password || !repeatPassword) {
     return sendError(
       event,
       createError({ statusCode: 400, statusMessage: "Invalid params" })
@@ -50,7 +48,8 @@ export default defineEventHandler(async (event) => {
   const user = await useDrizzle()
     .insert(tables.user)
     .values({
-      ...userData
+      ...userData,
+      verified: true
     })
     .onConflictDoNothing()
     .returning({

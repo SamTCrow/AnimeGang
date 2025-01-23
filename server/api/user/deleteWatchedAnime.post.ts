@@ -1,8 +1,8 @@
 import { z } from "zod";
 
 const schema = z.object({
-  userId: z.number(),
-  animeId: z.number()
+  userId: z.number().positive().lt(9999999999),
+  animeId: z.number().positive().lt(9999999999)
 });
 
 export default eventHandler(async (event) => {

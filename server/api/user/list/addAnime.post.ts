@@ -2,8 +2,8 @@ import { z } from "zod";
 import { addAnimeToList } from "~/server/utils/database";
 
 const schema = z.object({
-  listId: z.number(),
-  animeId: z.number(),
+  listId: z.number().positive().lt(9999999999),
+  animeId: z.number().positive().lt(9999999999),
   animeName: z.string()
 });
 
@@ -12,9 +12,14 @@ export default defineEventHandler(async (event) => {
     event,
     schema.parse
   );
-  const session = await getUserSession(event);
+  const { user } = await getUserSession(event);
+  const listUser = await useDrizzle()
+    .select({ id: tables.list.userId })
+    .from(tables.list)
+    .where(eq(tables.list.id, listId))
+    .get();
 
-  if (session) {
+  if (user?.userId === listUser?.id) {
     try {
       const addAnime = await addAnimeToList(listId, animeId, animeName);
       return addAnime;

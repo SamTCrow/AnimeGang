@@ -1,8 +1,8 @@
 import { z } from "zod";
 
 const schema = z.object({
-  userId: z.number(),
-  animeId: z.number(),
+  userId: z.number().min(0).max(9999999999),
+  animeId: z.number().min(0).max(9999999999),
   animeName: z.string()
 });
 

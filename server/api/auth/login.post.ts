@@ -4,8 +4,8 @@ export default defineEventHandler(async (event) => {
   const body = await readValidatedBody(
     event,
     z.object({
-      username: z.string(),
-      password: z.string()
+      username: z.string().min(3).max(20),
+      password: z.string().min(8).max(20)
     }).parse
   );
   const { username, password } = body;

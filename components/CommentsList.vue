@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { comments } from "~/server/database/schema";
-
 const { referenceId } = defineProps<{ referenceId: number }>();
 const { user } = useUserSession();
 const loading = ref(false);
@@ -37,16 +35,18 @@ const handleSubmit = async () => {
   >
     <span>Be the first to comment!</span>
   </div>
-  <div v-else class="p-4">
+  <div v-else class="space-y-2 p-4">
     <UCard v-for="comment in CommentsList" :key="comment.id">
       <div class="text-pretty">{{ comment.message }}</div>
-      <UDivider class="py-4" />
-      <div class="flex justify-between">
-        <span class="text-sm">{{ comment.author }}</span>
-        <span class="text-sm">{{
-          new Date(Date.parse(comment.createdAt)).toUTCString()
-        }}</span>
-      </div>
+
+      <template #footer>
+        <div class="flex justify-between">
+          <span class="text-sm">{{ comment.author }}</span>
+          <span class="text-sm">{{
+            new Date(Date.parse(comment.createdAt)).toUTCString()
+          }}</span>
+        </div>
+      </template>
     </UCard>
   </div>
   <AuthState v-slot="{ loggedIn }">
@@ -63,6 +63,7 @@ const handleSubmit = async () => {
         label="Submit"
         class="absolute right-0"
         color="gray"
+        :loading="loading"
         @click="handleSubmit"
       />
     </div>

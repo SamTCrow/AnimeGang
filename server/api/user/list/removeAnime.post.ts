@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { deleteAnimeFromList } from "~/server/utils/database";
 const schema = z.object({
-  listId: z.number(),
-  animeId: z.number()
+  listId: z.number().min(0).max(9999999999),
+  animeId: z.number().min(0).max(9999999999)
 }).parse;
 
 export default defineEventHandler(async (event) => {

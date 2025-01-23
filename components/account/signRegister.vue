@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { z } from "zod";
 
-const emit = defineEmits(["close"]);
+const emit = defineEmits(["close", "logIn"]);
 const { fetch } = useUserSession();
 
 const schemaLogIn = z.object({
@@ -13,8 +13,7 @@ const schemaRegister = z.object({
   username: z.string(),
   email: z.string().email(),
   password: z.string().min(8),
-  repeatPassword: z.string(),
-  name: z.string()
+  repeatPassword: z.string()
 });
 
 type SchemaLogIn = z.output<typeof schemaLogIn>;
@@ -36,8 +35,7 @@ const registerForm = reactive({
   username: "",
   email: "",
   password: "",
-  repeatPassword: "",
-  name: ""
+  repeatPassword: ""
 });
 const error = ref("");
 
@@ -51,7 +49,8 @@ const onLogin = async (form: SchemaLogIn) => {
       }
     });
     emit("close");
-    fetch();
+    emit("logIn");
+    await fetch();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     error.value = err?.statusMessage;
@@ -73,7 +72,8 @@ const onRegister = async (form: SchemaRegister) => {
       }
     });
     emit("close");
-    fetch();
+    emit("logIn");
+    await fetch();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     error.value = err?.statusMessage;
@@ -84,14 +84,7 @@ const onRegister = async (form: SchemaRegister) => {
 <template>
   <UTabs :items="items" class="w-full">
     <template #item="{ item }">
-      <UCard
-        @submit.prevent="
-          () =>
-            item.key === 'signin'
-              ? onLogin(logInForm)
-              : onRegister(registerForm)
-        "
-      >
+      <UCard>
         <template #header>
           <span class="text-red-500">{{ error }}</span>
         </template>
@@ -100,7 +93,7 @@ const onRegister = async (form: SchemaRegister) => {
             :schema="schemaLogIn"
             class="space-y-3"
             :state="logInForm"
-            @submit.prevent="() => onLogin(logInForm)"
+            @submit="() => onLogin(logInForm)"
           >
             <UFormGroup label="Username" name="username">
               <UInput v-model="logInForm.username" placeholder="Username" />
@@ -112,6 +105,14 @@ const onRegister = async (form: SchemaRegister) => {
                 type="password"
               />
             </UFormGroup>
+            <UButton
+              type="submit"
+              color="white"
+              size="xl"
+              class="w-full justify-center"
+            >
+              {{ item.key === "signin" ? "Sign Up" : "Register" }}
+            </UButton>
           </UForm>
         </div>
         <div v-else-if="item.key === 'register'" class="space-y-3">
@@ -141,29 +142,27 @@ const onRegister = async (form: SchemaRegister) => {
                 required
               />
             </UFormGroup>
+            <UButton
+              type="submit"
+              color="white"
+              size="xl"
+              class="w-full justify-center"
+            >
+              {{ item.key === "signin" ? "Sign Up" : "Register" }}
+            </UButton>
           </UForm>
         </div>
 
-        <template #footer>
-          <UButton
-            type="submit"
-            color="white"
-            size="xl"
-            class="w-full justify-center"
-          >
-            {{ item.key === "signin" ? "Sign Up" : "Register" }}
-          </UButton>
-          <UDivider label="OR" class="py-2" />
-          <UButton
-            icon="devicon:google"
-            size="xl"
-            label="Sign up with Google"
-            color="white"
-            to="/api/auth/google"
-            class="w-full justify-center text-center"
-            external
-          />
-        </template>
+        <UDivider label="OR" class="py-2" />
+        <UButton
+          icon="devicon:google"
+          size="xl"
+          label="Sign up with Google"
+          color="white"
+          to="/api/auth/google"
+          class="w-full justify-center text-center"
+          external
+        />
       </UCard>
     </template>
   </UTabs>
