@@ -23,6 +23,9 @@ export default defineEventHandler(async (event) => {
         .delete(tables.score)
         .where(eq(tables.score.userID, user.userId));
       await useDrizzle()
+        .delete(tables.watchedAnime)
+        .where(eq(tables.watchedAnime.userId, user.userId));
+      await useDrizzle()
         .delete(tables.user)
         .where(eq(tables.user.id, user.userId));
       return "Success";
