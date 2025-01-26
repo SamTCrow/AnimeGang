@@ -1,7 +1,8 @@
 import { getListById } from "~/server/utils/database";
+import { z } from "zod";
 
 export default defineEventHandler(async (event) => {
-  const listId = Number(getRouterParam(event, "id"));
+  const listId = z.coerce.number().parse(getRouterParam(event, "id"));
 
   if (!listId) {
     throw createError({

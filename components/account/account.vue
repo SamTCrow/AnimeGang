@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 const profileIcon = ref("line-md:account");
-
+const router = useRouter();
 const items = [
   [{ label: `Welcome`, slot: "account" }],
   [
@@ -19,6 +19,13 @@ const items = [
       label: "My Characters",
       to: "/user/characters",
       icon: "tabler:square-rounded-letter-c"
+    }
+  ],
+  [
+    {
+      label: "Settings",
+      to: "/user/settings",
+      icon: "tabler:manual-gearbox"
     }
   ],
   [
@@ -48,7 +55,12 @@ const items = [
           label="LogOut"
           class="w-full p-0"
           color="gray"
-          @click="clear"
+          @click="
+            () => {
+              clear();
+              router.push('/');
+            }
+          "
         />
       </template>
     </UDropdown>

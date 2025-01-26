@@ -19,7 +19,7 @@ export const user = sqliteTable("user", {
   updatedAt: text("updatedAt"),
   verified: integer("verified", {
     mode: "boolean"
-  }).default(false)
+  }).default(true)
 });
 
 export const userRelations = relations(user, ({ many }) => ({
@@ -33,7 +33,7 @@ export const userRelations = relations(user, ({ many }) => ({
 export const list = sqliteTable("list", {
   id: integer("id").primaryKey(),
   userId: integer("userId")
-    .references(() => user.id)
+    .references(() => user.id, { onDelete: "cascade" })
     .notNull(),
   name: text("name").notNull()
 });
@@ -67,7 +67,7 @@ export const score = sqliteTable(
   {
     userID: integer("userID")
       .notNull()
-      .references(() => user.id),
+      .references(() => user.id, { onDelete: "cascade" }),
     animeID: integer("animeID").notNull(),
     score: integer("score").notNull()
   },
@@ -88,7 +88,7 @@ export const watchedAnime = sqliteTable(
   {
     userId: integer("userId")
       .notNull()
-      .references(() => user.id),
+      .references(() => user.id, { onDelete: "cascade" }),
     animeId: integer("animeId").notNull(),
     animeName: text("animeName").notNull()
   },
@@ -111,7 +111,7 @@ export const characterLike = sqliteTable(
     characterAnimeName: text("characterAnimeName").notNull(),
     userId: integer("userId")
       .notNull()
-      .references(() => user.id)
+      .references(() => user.id, { onDelete: "cascade" })
   },
   (t) => ({ pk: primaryKey({ columns: [t.userId, t.characterId] }) })
 );
@@ -127,14 +127,16 @@ export const comments = sqliteTable("comments", {
   id: integer("id").primaryKey(),
   author: integer("author")
     .notNull()
-    .references(() => user.id),
+    .references(() => user.id, { onDelete: "cascade" }),
   createdAt: integer("createdAt", {
     mode: "timestamp"
   }).notNull(),
   message: text("text").notNull(),
   referenceId: integer("referenceId").notNull(),
   referenceType: text("referenceType"),
-  parentId: integer("parentId").references((): AnySQLiteColumn => comments.id)
+  parentId: integer("parentId").references((): AnySQLiteColumn => comments.id, {
+    onDelete: "cascade"
+  })
 });
 
 export const commentsRelations = relations(comments, ({ one, many }) => ({
@@ -147,5 +149,5 @@ export const commentsRelations = relations(comments, ({ one, many }) => ({
     references: [comments.id],
     relationName: "parentComment"
   }),
-  children: many(comments)
+  children: many(comments, { relationName: "parentComment" })
 }));

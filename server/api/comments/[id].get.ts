@@ -1,28 +1,59 @@
 import { isNull } from "drizzle-orm";
-import { user } from "~/server/database/schema";
+
+import { z } from "zod";
+
+const schema = z.object({
+  page: z.coerce.number().positive().lt(999).catch(1)
+}).parse;
 
 export default defineEventHandler(async (event) => {
-  const animeId = Number(getRouterParam(event, "id"));
+  const animeId = z.coerce
+    .number()
+    .positive()
+    .lt(9999999)
+    .parse(getRouterParam(event, "id"));
+  const { page } = await getValidatedQuery(event, schema);
+
+  const pageSize = 10;
 
   try {
-    const comments = await useDrizzle()
-      .select({
-        id: tables.comments.id,
-        author: tables.user.username,
-        createdAt: tables.comments.createdAt,
-        message: tables.comments.message,
-        parentId: tables.comments.parentId
-      })
-      .from(tables.comments)
-      .where(
-        and(
-          eq(tables.comments.referenceId, animeId),
-          isNull(tables.comments.parentId)
-        )
+    const totalItems = await useDrizzle().$count(
+      tables.comments,
+      and(
+        eq(tables.comments.referenceId, animeId),
+        isNull(tables.comments.parentId)
       )
-      .leftJoin(tables.user, eq(user.id, tables.comments.author));
+    );
+    const commentsList = await useDrizzle().query.comments.findMany({
+      where: and(
+        eq(tables.comments.referenceId, animeId),
+        isNull(tables.comments.parentId)
+      ),
+      columns: {
+        author: false
+      },
 
-    return comments;
+      with: {
+        user: {
+          columns: {
+            username: true
+          }
+        },
+        children: {
+          columns: { id: true },
+          limit: 1000
+        }
+      },
+
+      limit: pageSize,
+      offset: (page - 1) * pageSize,
+      orderBy: (comments, { desc }) => [desc(comments.createdAt)]
+    });
+
+    return {
+      items: totalItems,
+      commentsList
+    };
   } catch (error) {
     throw createError({
       statusCode: 500,

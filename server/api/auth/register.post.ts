@@ -45,44 +45,41 @@ export default defineEventHandler(async (event) => {
     password: await hashPassword(password)
   };
 
-  const user = await useDrizzle()
-    .insert(tables.user)
-    .values({
-      ...userData,
-      verified: true
-    })
-    .onConflictDoNothing()
-    .returning({
-      id: tables.user.id,
-      username: tables.user.username,
-      email: tables.user.email
-    })
-    .get();
-
-  if (!user) {
-    return sendError(
-      event,
-      createError({
-        statusCode: 400,
-        message: "User already exist"
+  try {
+    const user = await useDrizzle()
+      .insert(tables.user)
+      .values({
+        ...userData,
+        verified: true
       })
-    );
+      .onConflictDoNothing()
+      .returning({
+        id: tables.user.id,
+        username: tables.user.username,
+        email: tables.user.email
+      })
+      .get();
+    await createWantToWatchList(user.id);
+
+    // add email verification
+
+    await setUserSession(event, {
+      user: {
+        userName: user.username,
+        userId: user.id,
+        email: user.email
+      },
+      loggedInAt: Date.now()
+    });
+
+    return {
+      body: user
+    };
+  } catch (error) {
+    console.log(error);
+    throw createError({
+      statusCode: 400,
+      statusMessage: "User already exists"
+    });
   }
-
-  await createWantToWatchList(user.id);
-
-  // add email verification
-
-  await setUserSession(event, {
-    user: {
-      userName: user.username,
-      userId: user.id,
-      email: user.email
-    },
-    loggedInAt: Date.now()
-  });
-
-  return {
-    body: user
-  };
 });

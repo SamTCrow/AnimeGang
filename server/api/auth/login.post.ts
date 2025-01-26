@@ -53,7 +53,5 @@ export default defineEventHandler(async (event) => {
     loggedInAt: Date.now()
   });
 
-  return {
-    message: "LogIn successful"
-  };
+  return sendRedirect(event, "/");
 });

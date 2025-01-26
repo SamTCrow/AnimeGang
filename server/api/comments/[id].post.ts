@@ -1,7 +1,7 @@
 import { z } from "zod";
 const schema = z.object({
   author: z.number().positive().lt(9999999999),
-  message: z.string(),
+  message: z.string().min(1).max(1000),
   parentId: z.number().positive().or(z.null()).or(z.undefined()),
   referenceType: z.string().or(z.undefined())
 }).parse;

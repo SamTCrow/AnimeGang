@@ -1,8 +1,12 @@
-import { createWantToWatchList } from "~/server/utils/database";
+import {
+  createWantToWatchList,
+  findUserByEmail
+} from "~/server/utils/database";
 
 export default defineOAuthGoogleEventHandler({
   async onSuccess(event, { user }) {
-    const isRegistered = await getUserByUsername(user.name);
+    const isRegistered = await findUserByEmail(user.email);
+
     if (!isRegistered) {
       const userData: User = {
         username: user.name,

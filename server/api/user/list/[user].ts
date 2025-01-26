@@ -1,7 +1,11 @@
 import { getUserLists } from "~/server/utils/database";
-
+import { z } from "zod";
 export default defineEventHandler(async (event) => {
-  const user = getRouterParam(event, "user");
+  const user = z.coerce
+    .number()
+    .positive()
+    .lt(99999999)
+    .parse(getRouterParam(event, "user"));
 
   if (!user) {
     return sendError(
@@ -14,7 +18,7 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    const lists = await getUserLists(+user);
+    const lists = await getUserLists(user);
     return lists;
   } catch (error) {
     return sendError(

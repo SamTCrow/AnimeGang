@@ -1,3 +1,4 @@
+
 import type { List, listToAnime } from "./drizzle";
 
 export const getUserByUsername = async (username: string) => {
@@ -190,7 +191,7 @@ export const addUserScore = async (
 
 export const deleteAnimeFromList = async (listId: number, animeId: number) => {
   try {
-    const deleteAnime = useDrizzle()
+    const deleteAnime = await useDrizzle()
       .delete(tables.listToAnime)
       .where(
         and(
@@ -201,6 +202,22 @@ export const deleteAnimeFromList = async (listId: number, animeId: number) => {
       .returning()
       .get();
     return deleteAnime;
+  } catch (error) {
+    throw createError({
+      statusCode: 500,
+      statusMessage: String(error)
+    });
+  }
+};
+
+export const findUserByEmail = async (email: string) => {
+  try {
+    const user = await useDrizzle()
+      .select()
+      .from(tables.user)
+      .where(eq(tables.user.email, email))
+      .get();
+    return user;
   } catch (error) {
     throw createError({
       statusCode: 500,
