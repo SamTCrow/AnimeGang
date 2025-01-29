@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    const list = await getListById(+listId);
+    const list = await getListById(listId);
     return list;
   } catch (error) {
     throw createError({

@@ -43,6 +43,7 @@
     "wrangler": "^3.86.0"
   },
   "dependencies": {
+    "@formkit/auto-animate": "^0.8.2",
     "@pinia/nuxt": "^0.9.0",
     "@tanstack/vue-query": "^5.61.5",
     "@vueuse/core": "^11.1.0",

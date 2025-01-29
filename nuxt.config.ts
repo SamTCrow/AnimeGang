@@ -19,7 +19,8 @@ export default defineNuxtConfig({
     "@nuxthub/core",
     "nuxt-auth-utils",
     "@pinia/nuxt",
-    "@nuxt/scripts"
+    "@nuxt/scripts",
+    "@formkit/auto-animate/nuxt"
   ],
   hub: {
     cache: true,
@@ -32,8 +33,7 @@ export default defineNuxtConfig({
     },
     oauth: {
       google: {
-        clientId:
-          "",
+        clientId: "",
         clientSecret: "",
         redirectURL: ""
       }

@@ -1,4 +1,3 @@
-
 import type { List, listToAnime } from "./drizzle";
 
 export const getUserByUsername = async (username: string) => {
@@ -80,7 +79,7 @@ export const getListById = async (listId: number) => {
     const list = await useDrizzle()
       .select()
       .from(tables.list)
-      .fullJoin(
+      .leftJoin(
         tables.listToAnime,
         eq(tables.list.id, tables.listToAnime.listId)
       )
